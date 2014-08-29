@@ -1,0 +1,27 @@
+- title "Lead : #{@lead.name}"
+
+.row-fluid
+  .span4.well#lead_show_well
+    %h5.page-header General Information
+    %table.table.table-condensed.table-striped#lead_show
+      %thead
+        %tr
+          %th Name
+          %th Assignable
+          %th Company
+          %th
+      %tbody
+        %tr
+          %td= @lead.name
+          %td
+            - if @lead.assignable.present?
+              = @lead.assignable.name
+            - else
+              None
+          %td= @lead.company.name
+          %td.action-button
+            .pull-right
+              = link_to edit_lead_path(@lead), class: 'btn btn-xs btn-warning', title: 'Edit Lead' do
+                %span.glyphicon.glyphicon-edit
+  .span8
+    %p Stuff here

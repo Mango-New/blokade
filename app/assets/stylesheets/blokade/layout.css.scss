@@ -1,0 +1,37 @@
+footer p {
+  margin-top: 1em;
+  text-align: center;
+}
+
+td.action-button {
+  width: 2em;
+}
+
+.page-header {
+  margin-bottom: 1em !important;
+}
+
+#button-toolbar {
+  margin-bottom: 2em;
+}
+
+.navbar-inverse .nav .active>a, .navbar-inverse .nav .active>a:hover, .navbar-inverse .nav .active>a:focus {
+  color: #FFFFFF;
+  background-color: #424242;
+}
+
+.well#permissions {
+  padding: 10px !important;
+}
+
+.well#blokade_permission_show_well {
+  padding: 9px !important;
+}
+
+tr.permission-instance td.success {
+  background-color: #dff0d8 !important;
+}
+
+tr.permission-instance td.error {
+  background-color: #f2dede !important;
+}

@@ -1,0 +1,9 @@
+%tr.permission-instance
+  %td= link_to permission.action, permission, title: t(".view_permission")
+  %td= permission.subject_class
+  %td= permission.description
+  %td{class: permission.enable_restrictions? ? "error" : "success"}= permission.enable_restrictions? ? "Yes" : "No"
+  %td.action-button
+    .pull-right
+      = link_to edit_permission_path(permission), class: 'btn btn-xs btn-warning', title: t(".edit_permission") do
+        %span.glyphicon.glyphicon-edit

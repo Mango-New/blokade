@@ -1,0 +1,12 @@
+= simple_form_for @lead, html: { class: 'form-horizontal' } do |f|
+  = f.error_notification
+
+  .form-inputs
+    .row-fluid
+      .span3
+        %h4 General Information
+        = f.input :name
+        = f.association :assignable, collection: Luser.all
+  .form-actions
+    = f.button :submit, class: 'btn btn-primary'
+    = link_to 'Cancel', @lead.new_record? ? leads_path : lead_path(@lead), class: 'btn'

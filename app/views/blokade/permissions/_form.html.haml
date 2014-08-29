@@ -1,0 +1,13 @@
+= simple_form_for @permission do |f|
+  = f.error_notification
+
+  = f.input :action
+  = f.input :subject_class
+  = f.input :description
+  = f.input :backend, as: :select, include_blank: false
+  = f.input :enable_restrictions, as: :select, include_blank: false
+
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      = f.button :submit, class: 'btn btn-primary'
+      = link_to 'Cancel', permissions_path, class: 'btn btn-link'

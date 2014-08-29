@@ -1,0 +1,56 @@
+en:
+  date:
+    formats:
+      short: "%d %B %Y"
+  time:
+    formats:
+      short: "%d %B %Y,%l:%M %P"
+      only_time: "%l:%M %P"
+  activerecord:
+    attributes:
+      blokade/permission:
+        action: 'Action'
+        backend: 'Backend'
+        description: 'Description'
+        subject_class: 'Subject Class'
+        enable_restrictions: 'Enable Restrictions'
+    models:
+      permission: 'Permission'
+  blokade:
+    permissions:
+      edit:
+        title: 'Edit Permission'
+      index:
+        franchisee_permissions: 'Franchisee Permissions'
+        new_permission: 'New Permission'
+        notice: "Below is a list of all the permissions available to the system. Special care should taken before modifying any existing permissions. As a general rule of thumb, new permissions should be added via migrations instead of through the interface. The permissions interface is for convenience in modifying exiting permissions in the system."
+        skywire_permissions: 'Skywire Permissions'
+        title: "Permissions"
+      new:
+        title: 'New Permission'
+      permission:
+        edit_permission: 'Edit Permission'
+        view_permission: 'View Permission'
+      show:
+        title: "Permission : %{action}"
+        edit_permission: 'Edit Permission'
+    blokade:
+      manage: "Grants all power to create, read, update, and remove blokades for the blockadable."
+      index: "Permits viewing the index of all blokades for the blockadable."
+      show: "Permits viewing a specific blokade for the blockadable."
+      new: "Permits viewing the new blokade button and page for the blockadable."
+      create: "Permits creating a new blokade for the blockadable."
+      edit: "Permits viewing the edit blokade button and page for the blockadable."
+      update: "Permits updating an existing blokade for the blockadable."
+      destroy: "Permits removing an existing blokade from the blockadable."
+  layouts:
+    blokade:
+      application:
+        blokade_brand: 'Blokade'
+        copyright: "Skywire Technology %{year}"
+        default_title: 'Blokade'
+        default_sub_title: ''
+        title: "Blokade : %{title}"
+      navbar:
+        main_app: 'Dummy'
+        permissions: 'Permissions'

@@ -1,0 +1,135 @@
+- title t(".title"), false
+
+.page-header
+  %h3.sub-title.inline
+    = t(".title")
+    %span
+      = link_to new_permission_path, class: 'btn btn-xs btn-primary', title: t(".new_permission") do
+        %span.glyphicon.glyphicon-plus
+
+.well#permissions
+  %h5 NOTICE:
+  %p= t(".notice")
+
+%ul.nav.nav-tabs.nav-paginate-tabs
+  %li.active
+    %a{href: '#frontend', data: {toggle: "tab"}}
+      %span.glyphicon.glyphicon-briefcase
+      = t(".franchisee_permissions")
+  %li
+    %a{href: '#backend', data: {toggle: "tab"}}
+      %span.glyphicon.glyphicon-user
+      = t(".skywire_permissions")
+
+.tab-content
+  .tab-pane.active#frontend
+    %h3= t(".franchisee_permissions")
+    .tabbable.tabs-left
+      %ul.nav.nav-tabs.nav-paginate-tabs
+        %li.active
+          %a{href: "#symbolic_frontend", data: {toggle: "tab"}} Symbolic
+        - @frontend_permission_subject_classes.each_with_index do |my_subject_class, index|
+          %li
+            %a{href: "#frontend_#{my_subject_class}", data: {toggle: "tab"}}= my_subject_class.classify.constantize.model_name.human
+      .tab-content
+        #symbolic_frontend.tab-pane.active
+          %h4.page-header Symbolic Permissions
+          .row
+            .col-md-10
+              %table.table.table-striped.table-hover.table-condensed
+                %thead
+                  %tr
+                    %th= Blokade::Permission.human_attribute_name(:action)
+                    %th= Blokade::Permission.human_attribute_name(:subject_class)
+                    %th= Blokade::Permission.human_attribute_name(:description)
+                    %th= Blokade::Permission.human_attribute_name(:enable_restrictions)
+                    %th
+                %tbody
+                  = render @symbolic_frontend_permissions
+        - @frontend_permission_subject_classes.each_with_index do |my_subject_class, index|
+          - my_frontend_permissions = @frontend_permissions.with_subject_class(my_subject_class)
+          - unrestricted_permissions = my_frontend_permissions.unrestricted
+          - restricted_permissions = my_frontend_permissions.restricted
+          %div.tab-pane{id: "frontend_#{my_subject_class}"}
+            %h4.page-header= my_subject_class
+            %h5 Not Restricted
+            .col-md-10
+              %table.table.table-striped.table-hover.table-condensed
+                %thead
+                  %tr
+                    %th= Blokade::Permission.human_attribute_name(:action)
+                    %th= Blokade::Permission.human_attribute_name(:subject_class)
+                    %th= Blokade::Permission.human_attribute_name(:description)
+                    %th= Blokade::Permission.human_attribute_name(:enable_restrictions)
+                    %th
+                %tbody
+                  = render unrestricted_permissions
+              - if restricted_permissions.present?
+                %h5 Restricted
+                %table.table.table-striped.table-hover.table-condensed
+                  %thead
+                    %tr
+                      %th= Blokade::Permission.human_attribute_name(:action)
+                      %th= Blokade::Permission.human_attribute_name(:subject_class)
+                      %th= Blokade::Permission.human_attribute_name(:description)
+                      %th= Blokade::Permission.human_attribute_name(:enable_restrictions)
+                      %th
+                  %tbody
+                    = render restricted_permissions
+
+  .tab-pane#backend
+    %h3= t(".skywire_permissions")
+    .tabbable.tabs-left
+      %ul.nav.nav-tabs.nav-paginate-tabs
+        %li.active
+          %a{href: "#symbolic_backend", data: {toggle: "tab"}} Symbolic
+        - @backend_permission_subject_classes.each_with_index do |my_subject_class, index|
+          %li
+            %a{href: "#backend_#{my_subject_class}", data: {toggle: "tab"}}= my_subject_class
+      .tab-content
+        #symbolic_backend.tab-pane.active
+          %h4.page-header Symbolic Permissions
+          .row
+            .col-md-offset-1.col-md-10
+              %table.table.table-striped.table-hover.table-condensed
+                %thead
+                  %tr
+                    %th= Blokade::Permission.human_attribute_name(:action)
+                    %th= Blokade::Permission.human_attribute_name(:subject_class)
+                    %th= Blokade::Permission.human_attribute_name(:description)
+                    %th= Blokade::Permission.human_attribute_name(:enable_restrictions)
+                    %th
+                %tbody
+                  = render @symbolic_backend_permissions
+
+        - @backend_permission_subject_classes.each_with_index do |my_subject_class, index|
+          - my_backend_permissions = @backend_permissions.with_subject_class(my_subject_class)
+          - unrestricted_permissions = my_backend_permissions.unrestricted
+          - restricted_permissions = my_backend_permissions.restricted
+          %div.tab-pane{id: "backend_#{my_subject_class}"}
+            %h4.page-header= my_subject_class
+            %h5 Not Restricted
+            .row
+              .col-md-offset-2.col-md-9
+                %table.table.table-striped.table-hover.table-condensed
+                  %thead
+                    %tr
+                      %th= Blokade::Permission.human_attribute_name(:action)
+                      %th= Blokade::Permission.human_attribute_name(:subject_class)
+                      %th= Blokade::Permission.human_attribute_name(:description)
+                      %th= Blokade::Permission.human_attribute_name(:enable_restrictions)
+                      %th
+                  %tbody
+                    = render unrestricted_permissions
+                - if restricted_permissions.present?
+                  %h5 Restricted
+                  %table.table.table-striped.table-hover.table-condensed
+                    %thead
+                      %tr
+                        %th= Blokade::Permission.human_attribute_name(:action)
+                        %th= Blokade::Permission.human_attribute_name(:subject_class)
+                        %th= Blokade::Permission.human_attribute_name(:description)
+                        %th= Blokade::Permission.human_attribute_name(:enable_restrictions)
+                        %th
+                    %tbody
+                      = render restricted_permissions

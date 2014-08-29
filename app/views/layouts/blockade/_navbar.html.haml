@@ -1,0 +1,11 @@
+#navbar-collapse-1.collapse.navbar-collapse
+  %ul.nav.navbar-nav
+    %li
+      = link_to main_app.root_path do
+        %span.glyphicon.glyphicon-arrow-left
+        Back to
+        = t(".main_app")
+    %li{class: (params[:controller] == "blokade/permissions") ? "active" : nil}
+      = link_to blokade.permissions_path do
+        %span.glyphicon.glyphicon-lock
+        = t(".permissions")

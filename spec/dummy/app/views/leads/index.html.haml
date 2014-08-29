@@ -1,0 +1,35 @@
+- title "Leads", false
+
+.page-header
+  %h3.sub-title.inline
+    Leads
+    %span
+      = link_to new_lead_path, class: 'btn btn-xs btn-primary', title: "New Lead" do
+        %span.glyphicon.glyphicon-plus
+
+%table.table.table-striped.table-hover.table-condensed#leads_index
+  %thead
+    %tr
+      %th Name
+      %th Assignable
+      %th Company
+      %th
+      %th
+  %tbody
+    - @leads.each do |lead|
+      %tr
+        %td= link_to lead.name, lead
+        %td
+          - if lead.assignable.present?
+            = lead.assignable.name
+          - else
+            None
+        %td= lead.company.name
+        %td.action-button
+          .pull-right
+            = link_to edit_lead_path(lead), class: 'btn btn-xs btn-warning', title: "Edit Lead" do
+              %span.glyphicon.glyphicon-edit
+        %td.action-button
+          .pull-right
+            = link_to lead, class: 'btn btn-danger btn-xs btn-danger', title: "Remove Lead", method: :delete, data: { confirm: 'Are you sure?' }, id: "lead_destroy_#{lead.id}" do
+              %span.glyphicon.glyphicon-remove

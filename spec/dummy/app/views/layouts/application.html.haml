@@ -1,0 +1,103 @@
+-# !!! 5
+-# %html(lang="en")
+-#   %head
+-#     %meta(charset="utf-8")
+-#     %meta(http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1")
+-#     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
+-#     %title= content_for?(:title) ? t('.title', title: yield(:title)) : t('.default_title')
+-#     = csrf_meta_tags
+-#     / Le HTML5 shim, for IE6-8 support of HTML elements
+-#     /[if lt IE 9]
+-#       = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"
+-#     = stylesheet_link_tag "application", media: "all"
+-#     = favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png', sizes: '144x144'
+-#     = favicon_link_tag 'apple-touch-icon-114x114-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png', sizes: '114x114'
+-#     = favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png', sizes: '72x72'
+-#     = favicon_link_tag 'apple-touch-icon-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png'
+-#     = javascript_include_tag "application"
+
+-#   %body
+-#     .navbar.navbar-fluid-top
+-#       .navbar-inner
+-#         .container-fluid
+-#           %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
+-#             %span.icon-bar
+-#             %span.icon-bar
+-#             %span.icon-bar
+-#           %a.brand(href="#") Dummy
+-#           = render "layouts/navbar"
+
+-#     .container-fluid
+-#       .row-fluid
+-#         .span12
+-#           %div.flash-message
+-#             = bootstrap_flash
+-#           - if content_for?(:sub_title)
+-#             .page-header
+-#               %h3.sub-title.inline= content_for?(:sub_title) ? yield(:sub_title) : t('.default_sub_title')
+-#           %div= yield
+
+-#       %footer
+-#         %p &copy; Skywire Technology #{Date.today.year}
+
+
+
+!!! 5
+%html(lang="en")
+  %head
+    %meta(charset="utf-8")
+    %meta(http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1")
+    %meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    %title= content_for?(:title) ? t('.title', title: yield(:title)) : t('.default_title')
+    = csrf_meta_tags
+    / Le HTML5 shim, for IE6-8 support of HTML elements
+    /[if lt IE 9]
+      = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"
+    = stylesheet_link_tag "application", media: "all", 'data-turbolinks-track' => true
+    = favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png', sizes: '144x144'
+    = favicon_link_tag 'apple-touch-icon-114x114-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png', sizes: '114x114'
+    = favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png', sizes: '72x72'
+    = favicon_link_tag 'apple-touch-icon-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png'
+    = javascript_include_tag "application", 'data-turbolinks-track' => true
+
+  %body
+    %nav.navbar.navbar-default{role: "navigation"}
+      .container-fluid
+        .navbar-header
+          %button.navbar-toggle{"data-target" => "#navbar-collapse-1", "data-toggle" => "collapse", type: "button"}
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.navbar-brand{href: '#'}
+            %span.glyphicon.glyphicon-home
+            Dummy
+        = render "layouts/navbar"
+
+    .container
+      .row
+        - if content_for?(:sidebar)
+          .col-lg-9
+            %div.flash-message
+              = bootstrap_flash
+            - if content_for?(:sub_title)
+              .page-header
+                %h3.sub-title.inline= content_for?(:sub_title) ? yield(:sub_title) : t('.default_sub_title')
+            - if content_for?(:toolbar)
+              %div#button-toolbar= yield(:toolbar)
+            %div= yield
+          .col-lg-3
+            .well.sidebar-nav
+              %ul.nav.nav-list= yield(:sidebar)
+        - else
+          .col-lg-12
+            %div.flash-message
+              = bootstrap_flash
+            - if content_for?(:sub_title)
+              .page-header
+                %h3.sub-title.inline= content_for?(:sub_title) ? yield(:sub_title) : t('.default_sub_title')
+            - if content_for?(:toolbar)
+              %div#button-toolbar= yield(:toolbar)
+            %div= yield
+
+      %footer
+        %p &copy; Skywire Technology #{Date.today.year}

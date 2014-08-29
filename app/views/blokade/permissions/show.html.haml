@@ -1,0 +1,47 @@
+- title t(".title", action: @permission.action), false
+
+.page-header
+  %h3.sub-title.inline
+    = t(".title", action: @permission.action)
+    %span
+      = link_to blokade.permissions_path(anchor: "#{@permission.backend? ? 'backend-' : 'frontend-' }#{@permission.backend? ? 'backend' : 'frontend' }_#{@permission.subject_class}"), class: 'btn btn-xs btn-default', title: "Back" do
+        %span.glyphicon.glyphicon-arrow-left
+
+.col-lg-4.well#blokade_permission_show_well
+  %h5.page-header General Information
+  %table.table.table-striped.table-condensed
+    %tr
+      %th= Blokade::Permission.human_attribute_name(:action)
+      %td= @permission.action
+      %th
+      %td.action-button
+        .pull-right
+          = link_to edit_permission_path(@permission), title: t(".edit_permission"), class: 'btn btn-warning btn-xs' do
+            %span.glyphicon.glyphicon-edit
+    %tr
+      %th= Blokade::Permission.human_attribute_name(:subject_class)
+      %td{colspan: 4}= @permission.subject_class
+    %tr
+      %th= Blokade::Permission.human_attribute_name(:backend)
+      %td{colspan: 4}= @permission.backend? ? 'Yes' : 'No'
+    %tr
+      %th= Blokade::Permission.human_attribute_name(:enable_restrictions)
+      %td{colspan: 4}= @permission.enable_restrictions? ? 'Yes' : 'No'
+    %tr
+      %th= Blokade::Permission.human_attribute_name(:description)
+      %td{colspan: 4}= @permission.description
+.col-lg-8
+  %h4.page-header Roles
+  %table.table.table-condensed.table-striped.table-hover#blokade_permission_roles
+    %thead
+      %tr
+        %th= Blokade.blockadable_class.model_name.human
+        %th Name
+        %th Key
+    %tbody
+      - @permission.roles.each do |role|
+        %tr
+          %td= role.send(Blokade.blockadable_class.model_name.singular.to_sym).to_s
+          %td= role.name
+          %td= role.key
+
