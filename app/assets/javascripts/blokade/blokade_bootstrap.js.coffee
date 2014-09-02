@@ -10,7 +10,6 @@ jQuery ->
       if url_fragments.length is 1
         $(".nav-paginate-tabs a[href=#" + url_fragments[0] + "]").tab "show"  if url.match("#")
       else if url_fragments.length is 2
-        console.log("fragments is: ", url_fragments)
         $(".nav-paginate-tabs a[href=#" + url_fragments[0] + "]").tab "show"  if url.match("#")
         $(".nav-paginate-tabs a[href=#" + url_fragments[1] + "]").tab "show"  if url.match("_")
 

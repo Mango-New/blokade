@@ -227,6 +227,19 @@ This will create two default roles: `Sales Representative` and `Sales Manager`. 
 pass into it and assign `schooner.permission_ids` to match the blokades you specify. This will allow you to write a
 rake task to loop over all the Fleet using `Blokade.my_fleet` to iterate over them all.
 
+An example is provided in the dummy application:
+
+```ruby
+def create_default_roles
+  # Create the default schooners
+  Blokade.my_fleet.schooners.each do |schooner|
+    my_role = self.roles.find_or_create_by(name: schooner.role_name, key: schooner.role_name.parameterize, company: self)
+    my_role.permission_ids = schooner.permission_ids
+    my_role.save!
+  end
+end
+```
+
 ### Rake Tasks
 
 There are a couple of rake tasks for managing the Permissions stored in Blokade.

@@ -13,7 +13,7 @@ class Company < ActiveRecord::Base
     Blokade.my_fleet.schooners.each do |schooner|
       my_role = self.roles.find_or_create_by(name: schooner.role_name, key: schooner.role_name.parameterize, company: self)
       my_role.permission_ids = schooner.permission_ids
-      my_role.save
+      my_role.save!
     end
   end
 

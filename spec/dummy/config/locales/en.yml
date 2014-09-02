@@ -30,6 +30,7 @@ en:
           edit: "Permits viewing the edit company button and page for the company."
           update: "Permits updating an existing company for the company."
     models:
+      my_custom_engine: 'my_custom_engine'
       lead: "Lead"
   layouts:
     application:
