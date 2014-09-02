@@ -7,12 +7,12 @@ RSpec.describe LeadsController, type: :controller do
 
   before(:each) do
     stub_cancan_authorize([Lead])
-    controller.stub(:current_user).and_return(luser)
-    controller.stub(:current_company).and_return(company)
-    raise luser.permission_ids.inspect
+    allow(controller).to receive(:current_user).and_return(luser)
+    allow(controller).to receive(:current_company).and_return(company)
+    expect(company.lusers).to match_array([luser])
   end
 
-  let(:valid_attributes) { attributes_for(:lead).merge(company: company) }
+  let(:valid_attributes) { attributes_for(:lead).merge(company_id: company.id) }
 
   let(:invalid_attributes) {
     {
@@ -93,7 +93,7 @@ RSpec.describe LeadsController, type: :controller do
     describe "with valid params" do
       let(:new_attributes) {
         {
-          first_name: 'Mark'
+          name: 'Mark'
         }
       }
 
@@ -101,7 +101,7 @@ RSpec.describe LeadsController, type: :controller do
         lead = Lead.create! valid_attributes
         put :update, {id: lead.to_param, lead: new_attributes}, valid_session
         lead.reload
-        expect(lead.first_name).to eql("Mark")
+        expect(lead.name).to eql("Mark")
       end
 
       it "assigns the requested lead as @lead" do

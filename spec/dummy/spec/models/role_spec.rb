@@ -5,107 +5,107 @@ describe Role do
     describe "concerning ActiveRecord callbacks" do
       it "should automatically generate a key" do
         role = create(:role, name: "Sale Representative")
-        role.key.should_not be_nil
-        role.key.should eq("sale-representative")
+        expect(role.key).to_not be_nil
+        expect(role.key).to eq("sale-representative")
       end
     end
 
     describe "concerning instance methods" do
       it "should override to_param" do
         role = create(:role, name: "Sale Representative")
-        role.to_param.should eq("#{role.id}-#{role.name}".parameterize)
+        expect(role.to_param).to eq("#{role.id}-#{role.name}".parameterize)
       end
     end
 
     describe "concerning class methods" do
       it "should be able to find a role using get" do
         role = create(:role, name: "Sale Representative", key: "sales")
-        Role.get("sales").should eq(role)
+        expect(Role.get("sales")).to eq(role)
       end
 
       it "should have all the standard blokades" do
         expected = Role.frontend_permissions
-        expected.keys.should eq([:manage, :index, :show, :new, :create, :edit, :update, :destroy])
+        expect(expected.keys).to match_array([:manage, :index, :show, :new, :create, :edit, :update, :destroy])
       end
     end
 
     describe "concerning associations" do
       it "should belong to a company" do
         role = create(:role)
-        role.company.should_not be_nil
+        expect(role.company).to_not be_nil
       end
     end
   end
 
   describe "concerning validations" do
     it "should have a valid factory" do
-      build(:role).should be_valid
+      expect(build(:role)).to be_valid
     end
   end
 
   shared_examples "a role blokades_on concern" do
     it "should allow the standard frontend permissions" do
       permissions = Role.frontend_permissions
-      permissions.should_not be_nil
+      expect(permissions).to_not be_nil
       [:manage, :index, :show, :new, :create, :edit, :update, :destroy].each do |my_key|
-        permissions.should have_key(my_key)
+        expect(permissions).to have_key(my_key)
         [:action, :subject_class, :description, :backend].each do |sub_key|
-          permissions[my_key].should have_key(sub_key)
+          expect(permissions[my_key]).to have_key(sub_key)
         end
       end
       descriptions = ["Grants all power to create, read, update, and remove roles for the company.", "Permits viewing the index of all roles for the company.", "Permits viewing a specific role for the company.", "Permits viewing the new role button and page for the company.", "Permits creating a new role for the company.", "Permits viewing the edit role button and page for the company.", "Permits updating an existing role for the company.", "Permits removing an existing role from the company."]
-      permissions.values.map { |hash| hash[:action] }.should eq(["manage", "index", "show", "new", "create", "edit", "update", "destroy"])
-      permissions.values.map { |hash| hash[:subject_class] }.uniq.should eq(["Role"])
-      permissions.values.map { |hash| hash[:description] }.should match_array(descriptions)
-      permissions.values.map { |hash| hash[:backend] }.uniq.should eq([false])
+      expect(permissions.values.map { |hash| hash[:action] }).to match_array(["manage", "index", "show", "new", "create", "edit", "update", "destroy"])
+      expect(permissions.values.map { |hash| hash[:subject_class] }.uniq).to match_array(["Role"])
+      expect(permissions.values.map { |hash| hash[:description] }).to match_array(descriptions)
+      expect(permissions.values.map { |hash| hash[:backend] }.uniq).to match_array([false])
     end
 
     it "should have the standard backend permissions if the option is passed in" do
       permissions = Role.backend_permissions
-      permissions.should_not be_nil
+      expect(permissions).to_not be_nil
       [:manage, :index, :show, :new, :create, :edit, :update, :destroy].each do |my_key|
-        permissions.should have_key(my_key)
+        expect(permissions).to have_key(my_key)
         [:action, :subject_class, :description, :backend].each do |sub_key|
-          permissions[my_key].should have_key(sub_key)
+          expect(permissions[my_key]).to have_key(sub_key)
         end
       end
       descriptions = ["Grants all power to create, read, update, and remove roles for the company.", "Permits viewing the index of all roles for the company.", "Permits viewing a specific role for the company.", "Permits viewing the new role button and page for the company.", "Permits creating a new role for the company.", "Permits viewing the edit role button and page for the company.", "Permits updating an existing role for the company.", "Permits removing an existing role from the company."]
-      permissions.values.map { |hash| hash[:action] }.should eq(["manage", "index", "show", "new", "create", "edit", "update", "destroy"])
-      permissions.values.map { |hash| hash[:subject_class] }.uniq.should eq(["Role"])
-      permissions.values.map { |hash| hash[:description] }.should match_array(descriptions)
-      permissions.values.map { |hash| hash[:backend] }.uniq.should eq([true])
+      expect(permissions.values.map { |hash| hash[:action] }).to match_array(["manage", "index", "show", "new", "create", "edit", "update", "destroy"])
+      expect(permissions.values.map { |hash| hash[:subject_class] }.uniq).to match_array(["Role"])
+      expect(permissions.values.map { |hash| hash[:description] }).to match_array(descriptions)
+      expect(permissions.values.map { |hash| hash[:backend] }.uniq).to match_array([true])
     end
   end
 
   shared_examples "a schooner concern" do
     it "should have a fleet" do
-      Blokade.my_fleet.should_not be_nil
+      expect(Blokade.my_fleet).to_not be_nil
     end
 
     it "should have a Sales Representative schooner" do
       fleet = Blokade.my_fleet
-      fleet.schooners.should_not be_empty
-      fleet.find("Sales Representative").should_not be_nil
+      expect(fleet.schooners).to_not be_empty
+      expect(fleet.find("Sales Representative")).to_not be_nil
     end
 
     it "should have a Sales Manager schooner" do
       fleet = Blokade.my_fleet
-      fleet.schooners.should_not be_empty
-      fleet.find("Sales Manager").should_not be_nil
+      expect(fleet.schooners).to_not be_empty
+      expect(fleet.find("Sales Manager")).to_not be_nil
     end
 
     it "should have the right cargo for Sales Representative" do
       fleet = Blokade.my_fleet
-      fleet.schooners.should_not be_empty
+      expect(fleet.schooners).to_not be_empty
       schooner = fleet.find("Sales Representative")
-      schooner.cargo.should match_array([{klass: Lead, blokades: [:manage], except: true, restrict: true, frontend: true}, {klass: Company, blokades: [:show, :edit, :update], only: true, restrict: false, frontend: true}])
+      expect(schooner.cargo).to match_array([{klass: Lead, blokades: [:manage], except: true, restrict: true, frontend: true}, {klass: Company, blokades: [:show, :edit, :update], only: true, restrict: false, frontend: true}])
     end
 
     it "should have the right cargo for Sales Manager" do
       fleet = Blokade.my_fleet
-      fleet.schooners.should_not be_empty
+      expect(fleet.schooners).to_not be_empty
       schooner = fleet.find("Sales Manager")
-      schooner.cargo.should match_array([{klass: Company, blokades: [:show, :edit, :update], only: true, restrict: false, frontend: true}])
+      expect(schooner.cargo).to match_array([{klass: Company, blokades: [:show, :edit, :update], only: true, restrict: false, frontend: true}])
     end
   end
 

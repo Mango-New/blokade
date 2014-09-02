@@ -4,21 +4,21 @@ describe Luser do
 
   describe "concerning validations" do
     it "should have a valid factory" do
-      build(:luser).should be_valid
+      expect(build(:luser)).to be_valid
     end
 
     it "should require a name" do
-      build(:luser, name: nil).should_not be_valid
+      expect(build(:luser, name: nil)).to_not be_valid
     end
 
     it "should require a unique name" do
-      create(:luser, name: "mark").should be_valid
-      build(:luser, name: "mark").should_not be_valid
+      expect(create(:luser, name: "mark")).to be_valid
+      expect(build(:luser, name: "mark")).to_not be_valid
     end
 
     it "should require a unique name regardless of case" do
-      create(:luser, name: "mark").should be_valid
-      build(:luser, name: "MARK").should_not be_valid
+      expect(create(:luser, name: "mark")).to be_valid
+      expect(build(:luser, name: "MARK")).to_not be_valid
     end
   end
 
@@ -33,25 +33,25 @@ describe Luser do
         luser = create(:luser, company: company1)
         luser2 = create(:luser, name: "Hoop Jup", company: company2)
         power = create(:blokade_power, user: luser, role: role)
-        company1.lusers.should include(luser)
-        luser.company.should eq(company1)
-        luser.roles.should include(role)
-        luser.powers.should include(power)
-        company1.roles.should include(role)
-        role.permissions.should include(permission)
-        role.grants.should include(grant)
-        role.users.should include(luser)
-        luser.can?(:edit, luser).should eq(true)
-        luser.cannot?(:edit, luser2).should eq(true)
-        luser2.cannot?(:edit, luser).should eq(true)
-        luser2.cannot?(:edit, luser2).should eq(true)
+        expect(company1.lusers).to include(luser)
+        expect(luser.company).to eq(company1)
+        expect(luser.roles).to include(role)
+        expect(luser.powers).to include(power)
+        expect(company1.roles).to include(role)
+        expect(role.permissions).to include(permission)
+        expect(role.grants).to include(grant)
+        expect(role.users).to include(luser)
+        expect(luser.can?(:edit, luser)).to eq(true)
+        expect(luser.cannot?(:edit, luser2)).to eq(true)
+        expect(luser2.cannot?(:edit, luser)).to eq(true)
+        expect(luser2.cannot?(:edit, luser2)).to eq(true)
       end
     end
 
     describe "concerning associations" do
       it "should belong to a company" do
         luser = create(:luser)
-        luser.company.should_not be_nil
+        expect(luser.company).to_not be_nil
       end
 
       it "should have many roles through powers" do
@@ -59,8 +59,8 @@ describe Luser do
         role = create(:role, company: company)
         luser = create(:luser, company: company)
         power = create(:blokade_power, user: luser, role: role)
-        luser.roles.should include(role)
-        role.users.should include(luser)
+        expect(luser.roles).to include(role)
+        expect(role.users).to include(luser)
       end
 
       it "should have many permissions through roles" do
@@ -71,15 +71,15 @@ describe Luser do
         luser = create(:luser, company: company)
         power = create(:blokade_power, user: luser, role: role)
 
-        company.should be_valid
-        permission.should be_valid
-        role.should be_valid
-        grant.should be_valid
-        luser.should be_valid
-        power.should be_valid
+        expect(company).to be_valid
+        expect(permission).to be_valid
+        expect(role).to be_valid
+        expect(grant).to be_valid
+        expect(luser).to be_valid
+        expect(power).to be_valid
 
-        luser.permissions.should include(permission)
-        permission.users.should include(luser)
+        expect(luser.permissions).to include(permission)
+        expect(permission.users).to include(luser)
       end
     end
   end
@@ -91,35 +91,35 @@ describe Luser do
   shared_examples "a luser blokades_on concern" do
     it "should allow the standard frontend permissions" do
       permissions = User.frontend_permissions
-      permissions.should_not be_nil
+      expect(permissions).to_not be_nil
       [:manage, :index, :show, :new, :create, :edit, :update, :destroy].each do |my_key|
-        permissions.should have_key(my_key)
+        expect(permissions).to have_key(my_key)
         [:action, :subject_class, :description, :backend].each do |sub_key|
-          permissions[my_key].should have_key(sub_key)
+          expect(permissions[my_key]).to have_key(sub_key)
         end
       end
       descriptions = ["Grants all power to create, read, update, and remove users for the company.", "Permits viewing the index of all users for the company.", "Permits viewing a specific user for the company.", "Permits viewing the new user button and page for the company.", "Permits creating a new user for the company.", "Permits viewing the edit user button and page for the company.", "Permits updating an existing user for the company.", "Permits removing an existing user from the company."]
-      permissions.values.map { |hash| hash[:action] }.should eq(["manage", "index", "show", "new", "create", "edit", "update", "destroy"])
-      permissions.values.map { |hash| hash[:subject_class] }.uniq.should eq(["User"])
-      permissions.values.map { |hash| hash[:description] }.should match_array(descriptions)
-      permissions.values.map { |hash| hash[:backend] }.uniq.should eq([false])
-      permissions.values.map { |hash| hash[:enable_restrictions] }.uniq.should eq([false])
+      expect(permissions.values.map { |hash| hash[:action] }).to match_array(["manage", "index", "show", "new", "create", "edit", "update", "destroy"])
+      expect(permissions.values.map { |hash| hash[:subject_class] }.uniq).to match_array(["User"])
+      expect(permissions.values.map { |hash| hash[:description] }).to match_array(descriptions)
+      expect(permissions.values.map { |hash| hash[:backend] }.uniq).to match_array([false])
+      expect(permissions.values.map { |hash| hash[:enable_restrictions] }.uniq).to match_array([false])
     end
 
     it "should have the standard backend permissions if the option is passed in" do
       permissions = User.backend_permissions
-      permissions.should_not be_nil
+      expect(permissions).to_not be_nil
       [:manage, :index, :show, :new, :create, :edit, :update, :destroy].each do |my_key|
-        permissions.should have_key(my_key)
+        expect(permissions).to have_key(my_key)
         [:action, :subject_class, :description, :backend].each do |sub_key|
-          permissions[my_key].should have_key(sub_key)
+          expect(permissions[my_key]).to have_key(sub_key)
         end
       end
       descriptions = ["Grants all power to create, read, update, and remove users for the company.", "Permits viewing the index of all users for the company.", "Permits viewing a specific user for the company.", "Permits viewing the new user button and page for the company.", "Permits creating a new user for the company.", "Permits viewing the edit user button and page for the company.", "Permits updating an existing user for the company.", "Permits removing an existing user from the company."]
-      permissions.values.map { |hash| hash[:action] }.should eq(["manage", "index", "show", "new", "create", "edit", "update", "destroy"])
-      permissions.values.map { |hash| hash[:subject_class] }.uniq.should eq(["User"])
-      permissions.values.map { |hash| hash[:description] }.should match_array(descriptions)
-      permissions.values.map { |hash| hash[:backend] }.uniq.should eq([true])
+      expect(permissions.values.map { |hash| hash[:action] }).to match_array(["manage", "index", "show", "new", "create", "edit", "update", "destroy"])
+      expect(permissions.values.map { |hash| hash[:subject_class] }.uniq).to match_array(["User"])
+      expect(permissions.values.map { |hash| hash[:description] }).to match_array(descriptions)
+      expect(permissions.values.map { |hash| hash[:backend] }.uniq).to match_array([true])
     end
   end
 

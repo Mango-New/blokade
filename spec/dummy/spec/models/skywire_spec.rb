@@ -11,19 +11,19 @@ describe User do
         skywire = create(:skywire)
         luser = create(:luser, name: "Hoop Jup")
         power = create(:blokade_power, user: skywire, role: role)
-        skywire.roles.should include(role)
-        skywire.powers.should include(power)
-        role.permissions.should include(permission)
-        role.grants.should include(grant)
-        role.users.should include(skywire)
-        luser.company.should_not be_nil
+        expect(skywire.roles).to include(role)
+        expect(skywire.powers).to include(power)
+        expect(role.permissions).to include(permission)
+        expect(role.grants).to include(grant)
+        expect(role.users).to include(skywire)
+        expect(luser.company).to_not be_nil
 
         # Perhaps this is a backend user who can add Lusers to a company
         # but does not have permission to add or edit BACKEND users (skywires)
-        skywire.can?(:edit, skywire).should eq(false)
-        skywire.can?(:edit, luser).should eq(true)
-        luser.cannot?(:edit, skywire).should eq(true)
-        luser.cannot?(:edit, luser).should eq(true)
+        expect(skywire.can?(:edit, skywire)).to eq(false)
+        expect(skywire.can?(:edit, luser)).to eq(true)
+        expect(luser.cannot?(:edit, skywire)).to eq(true)
+        expect(luser.cannot?(:edit, luser)).to eq(true)
       end
 
       it "should inherit permissions if specified" do
@@ -33,18 +33,18 @@ describe User do
         skywire = create(:skywire)
         luser = create(:luser, name: "Hoop Jup")
         power = create(:blokade_power, user: skywire, role: role)
-        skywire.roles.should include(role)
-        skywire.powers.should include(power)
-        role.permissions.should include(permission)
-        role.grants.should include(grant)
-        role.users.should include(skywire)
-        luser.company.should_not be_nil
+        expect(skywire.roles).to include(role)
+        expect(skywire.powers).to include(power)
+        expect(role.permissions).to include(permission)
+        expect(role.grants).to include(grant)
+        expect(role.users).to include(skywire)
+        expect(luser.company).to_not be_nil
 
         # Since they can edit the parent User model, they can edit Skywires AND Lusers.
-        skywire.can?(:edit, skywire).should eq(true)
-        skywire.can?(:edit, luser).should eq(true)
-        luser.cannot?(:edit, skywire).should eq(true)
-        luser.cannot?(:edit, luser).should eq(true)
+        expect(skywire.can?(:edit, skywire)).to eq(true)
+        expect(skywire.can?(:edit, luser)).to eq(true)
+        expect(luser.cannot?(:edit, skywire)).to eq(true)
+        expect(luser.cannot?(:edit, luser)).to eq(true)
       end
     end
 
@@ -53,8 +53,8 @@ describe User do
         role = create(:role)
         user = create(:skywire)
         power = create(:blokade_power, user: user, role: role)
-        user.roles.should include(role)
-        role.users.should include(user)
+        expect(user.roles).to include(role)
+        expect(role.users).to include(user)
       end
 
       it "should have many permissions through roles" do
@@ -64,35 +64,35 @@ describe User do
         user = create(:skywire)
         power = create(:blokade_power, user: user, role: role)
 
-        permission.should be_valid
-        role.should be_valid
-        grant.should be_valid
-        user.should be_valid
-        power.should be_valid
+        expect(permission).to be_valid
+        expect(role).to be_valid
+        expect(grant).to be_valid
+        expect(user).to be_valid
+        expect(power).to be_valid
 
-        user.permissions.backend.should include(permission)
-        permission.users.should include(user)
+        expect(user.permissions.backend).to include(permission)
+        expect(permission.users).to include(user)
       end
     end
   end
 
   describe "concerning validations" do
     it "should have a valid factory" do
-      build(:skywire).should be_valid
+      expect(build(:skywire)).to be_valid
     end
 
     it "should require a name" do
-      build(:skywire, name: nil).should_not be_valid
+      expect(build(:skywire, name: nil)).to_not be_valid
     end
 
     it "should require a unique name" do
-      create(:skywire, name: "mark").should be_valid
-      build(:skywire, name: "mark").should_not be_valid
+      expect(create(:skywire, name: "mark")).to be_valid
+      expect(build(:skywire, name: "mark")).to_not be_valid
     end
 
     it "should require a unique name regardless of case" do
-      create(:skywire, name: "mark").should be_valid
-      build(:skywire, name: "MARK").should_not be_valid
+      expect(create(:skywire, name: "mark")).to be_valid
+      expect(build(:skywire, name: "MARK")).to_not be_valid
     end
   end
 
