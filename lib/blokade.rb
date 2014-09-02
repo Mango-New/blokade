@@ -3,6 +3,8 @@ require "blokade/engine"
 require "blokade/acts_as_blokade"
 require "blokade/acts_as_ability"
 require "blokade/blokades_on"
+require "blokade/port"
+require 'blokade/barrier'
 require "blokade/acts_as_schooner"
 require "blokade/fleet"
 require "blokade/schooner"
@@ -16,6 +18,13 @@ require 'kaminari'
 
 module Blokade
   extend Configuration
+
+  # Singleton that holds everything
+  mattr_accessor :port
+
+  def self.port
+    Port.instance
+  end
 
   # Armada (Absolutely Override)
   mattr_accessor :armada

@@ -20,4 +20,10 @@ Blokade.configure do |config|
   # Add hash entries to this array to specify directives for managing frontend symbolic permissions
   config.symbolic_frontend_blokades = [{manage: :my_custom_engine}]
 
+  # config.port.setup do |setup|
+  #   setup.add_barrier "Role" do
+  #     barriers [:manage, :index, :show, :new, :create, :edit, :update, :destroy]
+  #   end
+  # end
+
 end

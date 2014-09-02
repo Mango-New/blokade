@@ -19,4 +19,15 @@ Blokade.configure do |config|
   # Add hash entries to this array to specify directives for managing frontend symbolic permissions
   config.symbolic_frontend_blokades = [{manage: :my_custom_engine}]
 
+  # Start integrating Roadblock
+  config.port.setup do |setup|
+    setup.add_barrier "Company", i18n: true do
+      barriers [:show, :edit, :update], convoy: :frontend
+    end
+
+    setup.add_barrier "Company", i18n: true do
+      barriers [:manage], convoy: :backend
+    end
+  end
+
 end
