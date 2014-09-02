@@ -2,7 +2,7 @@ module Blokade::Concerns::PermissionConcerns
   extend ActiveSupport::Concern
 
   included do
-    has_many :grants, dependent: :destroy, class_name: Blokade.grant_class.to_s
+    has_many :grants, dependent: :destroy, class_name: Blokade.grant_klass.to_s
     has_many :roles, through: :grants
     has_many :users, through: :roles
 
@@ -12,12 +12,12 @@ module Blokade::Concerns::PermissionConcerns
     validates :backend,
       inclusion: { in: [true, false] }
 
-    scope :ordered, -> { order("#{Blokade.permission_class.model_name.plural}.subject_class ASC") }
+    scope :ordered, -> { order("#{Blokade.permission_klass.model_name.plural}.subject_class ASC") }
     scope :with_subject_class, lambda { |subject_class| where(subject_class: subject_class) }
     scope :frontend, -> { where(backend: false) }
     scope :backend, -> { where(backend: true) }
-    scope :symbolic, -> { where("#{Blokade.permission_class.model_name.plural}.subject_class LIKE (?)", ":%") }
-    scope :not_symbolic, -> { where("#{Blokade.permission_class.model_name.plural}.subject_class NOT LIKE (?)", ":%") }
+    scope :symbolic, -> { where("#{Blokade.permission_klass.model_name.plural}.subject_class LIKE (?)", ":%") }
+    scope :not_symbolic, -> { where("#{Blokade.permission_klass.model_name.plural}.subject_class NOT LIKE (?)", ":%") }
     scope :restricted, -> { where(enable_restrictions: true) }
     scope :unrestricted, -> { where(enable_restrictions: false) }
 

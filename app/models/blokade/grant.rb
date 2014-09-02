@@ -1,7 +1,7 @@
 module Blokade
   class Grant < ActiveRecord::Base
-    belongs_to :role, class_name: Blokade.role_class.to_s
-    belongs_to :permission, class_name: Blokade.permission_class.to_s
+    belongs_to :role, class_name: Blokade.role_klass.to_s
+    belongs_to :permission, class_name: Blokade.permission_klass.to_s
 
     # Note: We don't allow the role to be assigned the
     # same permission twice (it wouldn't make sense!)

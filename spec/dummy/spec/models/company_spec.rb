@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Company do
-  shared_examples "a blockadable concern" do
+  shared_examples "a blokadable concern" do
     describe "concerning ActiveRecord callbacks" do
       it "should destroy dependent roles" do
         company = create(:company, name: 'Phoenixfire Productions')
@@ -64,7 +64,7 @@ describe Company do
     it_behaves_like "a company blokades_on concern"
 
     # Make sure the concern is properly loaded
-    it_behaves_like "a blockadable concern"
+    it_behaves_like "a blokadable concern"
   end
 
 end

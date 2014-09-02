@@ -27,6 +27,5 @@ module Blokade
       end
       Blokade.armada = result
     end
-
   end
 end

@@ -2,9 +2,9 @@ module Blokade::Concerns::LuserConcerns
   extend ActiveSupport::Concern
 
   included do
-    belongs_to Blokade.blockadable_class.model_name.singular.to_sym, class_name: Blokade.blockadable_class.to_s
+    belongs_to Blokade.blokadable_klass.model_name.singular.to_sym, class_name: Blokade.blokadable_klass.to_s
 
-    has_many :powers, dependent: :destroy, class_name: Blokade.power_class.to_s, foreign_key: "user_id"
+    has_many :powers, dependent: :destroy, class_name: Blokade.power_klass.to_s, foreign_key: "user_id"
     has_many :roles, through: :powers
     has_many :permissions, -> { where backend: false }, through: :roles
 

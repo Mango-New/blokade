@@ -53,24 +53,24 @@ module Blokade::Concerns::BlokadesOnConcerns
       if self.force_i18n
         I18n.t(".activerecord.attributes.#{self.name.to_s.constantize.model_name.singular}.blokade.#{blokade.to_s}", default: I18n.t(".blokade.blokade.#{blokade.to_s}"))
       else
-        blockadable_name = Blokade.blockadable_class.model_name.singular
+        blokadable_name = Blokade.blokadable_klass.model_name.singular
         case blokade
         when :manage
-          "Grants all power to create, read, update, and remove #{self.model_name.human.pluralize.downcase} for the #{blockadable_name}."
+          "Grants all power to create, read, update, and remove #{self.model_name.human.pluralize.downcase} for the #{blokadable_name}."
         when :index
-          "Permits viewing the index of all #{self.model_name.human.pluralize.downcase} for the #{blockadable_name}."
+          "Permits viewing the index of all #{self.model_name.human.pluralize.downcase} for the #{blokadable_name}."
         when :show
-          "Permits viewing a specific #{self.model_name.human.downcase} for the #{blockadable_name}."
+          "Permits viewing a specific #{self.model_name.human.downcase} for the #{blokadable_name}."
         when :new
-          "Permits viewing the new #{self.model_name.human.downcase} button and page for the #{blockadable_name}."
+          "Permits viewing the new #{self.model_name.human.downcase} button and page for the #{blokadable_name}."
         when :create
-          "Permits creating a new #{self.model_name.human.downcase} for the #{blockadable_name}."
+          "Permits creating a new #{self.model_name.human.downcase} for the #{blokadable_name}."
         when :edit
-          "Permits viewing the edit #{self.model_name.human.downcase} button and page for the #{blockadable_name}."
+          "Permits viewing the edit #{self.model_name.human.downcase} button and page for the #{blokadable_name}."
         when :update
-          "Permits updating an existing #{self.model_name.human.downcase} for the #{blockadable_name}."
+          "Permits updating an existing #{self.model_name.human.downcase} for the #{blokadable_name}."
         when :destroy
-          "Permits removing an existing #{self.model_name.human.downcase} from the #{blockadable_name}."
+          "Permits removing an existing #{self.model_name.human.downcase} from the #{blokadable_name}."
         else
           I18n.t(".activerecord.attributes.#{self.name.to_s.constantize.model_name.human.downcase}.blokade.#{blokade.to_s}", default: I18n.t(".blokade.blokade.#{blokade.to_s}"))
         end

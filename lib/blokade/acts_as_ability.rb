@@ -12,16 +12,16 @@ module Blokade
         end
 
         # FRONT-END PERMISSIONS
-        blokade_id_column = "#{Blokade.blockadable_class.model_name.element}_id"
+        blokade_id_column = "#{Blokade.blokadable_klass.model_name.element}_id"
 
         # Unrestricted Frontend Permissions
         user.permissions.frontend.not_symbolic.unrestricted.each do |permission|
           # Check a users permissions
           if permission.subject_class.constantize.column_names.include?(blokade_id_column)
-            # Does this model have a blockadable_id column in it...
+            # Does this model have a blokadable_id column in it...
             can permission.action.to_sym, permission.subject_class.constantize, blokade_id_column.to_sym => user.send(blokade_id_column)
           else
-            # ... or is it the blockadable itself?
+            # ... or is it the blokadable itself?
             can permission.action.to_sym, permission.subject_class.constantize, :id => user.send(blokade_id_column)
           end
         end
@@ -30,10 +30,10 @@ module Blokade
         user.permissions.frontend.not_symbolic.restricted.each do |permission|
           # Check a users permissions
           if permission.subject_class.constantize.column_names.include?(blokade_id_column)
-            # Does this model have a blockadable_id column in it...
+            # Does this model have a blokadable_id column in it...
             can permission.action.to_sym, permission.subject_class.constantize, blokade_id_column.to_sym => user.send(blokade_id_column), permission.subject_class.constantize.my_restrictions.to_sym => user.id
           else
-            # ... or is it the blockadable itself?
+            # ... or is it the blokadable itself?
             can permission.action.to_sym, permission.subject_class.constantize, :id => user.send(blokade_id_column)#, permission.subject_class.constantize.my_restrictions.to_sym => user.id
           end
         end

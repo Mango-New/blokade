@@ -35,14 +35,14 @@ en:
         title: "Permission : %{action}"
         edit_permission: 'Edit Permission'
     blokade:
-      manage: "Grants all power to create, read, update, and remove blokades for the blockadable."
-      index: "Permits viewing the index of all blokades for the blockadable."
-      show: "Permits viewing a specific blokade for the blockadable."
-      new: "Permits viewing the new blokade button and page for the blockadable."
-      create: "Permits creating a new blokade for the blockadable."
-      edit: "Permits viewing the edit blokade button and page for the blockadable."
-      update: "Permits updating an existing blokade for the blockadable."
-      destroy: "Permits removing an existing blokade from the blockadable."
+      manage: "Grants all power to create, read, update, and remove blokades for the blokadable."
+      index: "Permits viewing the index of all blokades for the blokadable."
+      show: "Permits viewing a specific blokade for the blokadable."
+      new: "Permits viewing the new blokade button and page for the blokadable."
+      create: "Permits creating a new blokade for the blokadable."
+      edit: "Permits viewing the edit blokade button and page for the blokadable."
+      update: "Permits updating an existing blokade for the blokadable."
+      destroy: "Permits removing an existing blokade from the blokadable."
   layouts:
     blokade:
       application:

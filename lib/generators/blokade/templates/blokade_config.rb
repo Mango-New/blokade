@@ -1,3 +1,4 @@
+# # config/initializers/blokade.rb
 Blokade.configure do |config|
 
   # Set this to specify your own implementation of Role

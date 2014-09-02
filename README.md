@@ -44,7 +44,7 @@ Blokade.setup do |config|
   config.user_class = "User"
 
   # Set this to specify what Blokade should limit the permissions to (i.e. Company, School)
-  config.blockadable_class = "Company"
+  config.blokadable_class = "Company"
 
   # Set this to specify the default blokades which Blokade should generate for a model
   config.default_blokades = [:manage, :index, :show, :new, :create, :edit, :update, :destroy]
@@ -71,7 +71,7 @@ In doing so, the `Role` model must have the following database columns:
 # Role
 Name (String)
 Key (String, Index)
-Blockadable ID (Integer, Index) (i.e. company_id)
+Blokadable ID (Integer, Index) (i.e. company_id)
 ```
 
 In order to tie Blokade into your own implementation of the `Role` class you'll have to
@@ -89,7 +89,7 @@ In doing so, the `User` model must have the following database columns:
 
 ```ruby
 # User
-Blockadable ID (Integer, Index) (i.e. company_id)
+Blokadable ID (Integer, Index) (i.e. company_id)
 Type (String, Index)
 ```
 
@@ -108,11 +108,11 @@ acts_as_blokade as: :luser
 acts_as_blokade as: :skywire
 ```
 
-#### Blockadable
+#### Blokadable
 
-The Blockadable represents the model to which all the permissions will be scoped to. This could be something
-like a company or a school. Blokade requires you to specify the thing which is `blockadable` so that it can
-expect to look for that blockadable_id in the ability file. For example, if you wanted to limit a users permissions
+The Blokadable represents the model to which all the permissions will be scoped to. This could be something
+like a company or a school. Blokade requires you to specify the thing which is `blokadable` so that it can
+expect to look for that blokadable_id in the ability file. For example, if you wanted to limit a users permissions
 to only apply to their own Company, then you would specify the following inside `company.rb`, to invoke Blokade:
 
 ```ruby
