@@ -88,13 +88,13 @@ describe Luser do
     it_behaves_like "a luser concern"
   end
 
-  shared_examples "a luser blokades_on concern" do
+  shared_examples "a luser barrier_concern" do
     it "should allow the standard frontend permissions" do
       permissions = User.frontend_permissions
       expect(permissions).to_not be_nil
       [:manage, :index, :show, :new, :create, :edit, :update, :destroy].each do |my_key|
         expect(permissions).to have_key(my_key)
-        [:action, :subject_class, :description, :backend].each do |sub_key|
+        [:action, :subject_class, :description, :backend, :enable_restrictions].each do |sub_key|
           expect(permissions[my_key]).to have_key(sub_key)
         end
       end
@@ -109,22 +109,23 @@ describe Luser do
     it "should have the standard backend permissions if the option is passed in" do
       permissions = User.backend_permissions
       expect(permissions).to_not be_nil
-      [:manage, :index, :show, :new, :create, :edit, :update, :destroy].each do |my_key|
+      [:manage].each do |my_key|
         expect(permissions).to have_key(my_key)
-        [:action, :subject_class, :description, :backend].each do |sub_key|
+        [:action, :subject_class, :description, :backend, :enable_restrictions].each do |sub_key|
           expect(permissions[my_key]).to have_key(sub_key)
         end
       end
-      descriptions = ["Grants all power to create, read, update, and remove users for the company.", "Permits viewing the index of all users for the company.", "Permits viewing a specific user for the company.", "Permits viewing the new user button and page for the company.", "Permits creating a new user for the company.", "Permits viewing the edit user button and page for the company.", "Permits updating an existing user for the company.", "Permits removing an existing user from the company."]
-      expect(permissions.values.map { |hash| hash[:action] }).to match_array(["manage", "index", "show", "new", "create", "edit", "update", "destroy"])
+      descriptions = ["Grants all power to create, read, update, and remove users for the company."]
+      expect(permissions.values.map { |hash| hash[:action] }).to match_array(["manage"])
       expect(permissions.values.map { |hash| hash[:subject_class] }.uniq).to match_array(["User"])
       expect(permissions.values.map { |hash| hash[:description] }).to match_array(descriptions)
       expect(permissions.values.map { |hash| hash[:backend] }.uniq).to match_array([true])
+      expect(permissions.values.map { |hash| hash[:enable_restrictions] }.uniq).to match_array([false])
     end
   end
 
   describe "concerning blokades" do
-    it_behaves_like "a luser blokades_on concern"
+    it_behaves_like "a luser barrier_concern"
   end
 
 end

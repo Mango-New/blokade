@@ -27,10 +27,8 @@ module Blokade
           # Find out what blokades they want
           if klass.respond_to?("my_#{convoy}_blokades".to_sym)
             if except.present?
-              # desired_blokades = Blokade.default_blokades.reject { |k| barriers.include?(k) }
               desired_blokades = klass.send("my_#{convoy}_blokades".to_sym).reject { |k| barriers.include?(k) }
             elsif only.present?
-              # desired_blokades = Blokade.default_blokades.select { |k| barriers.include?(k) }
               desired_blokades = klass.send("my_#{convoy}_blokades".to_sym).select { |k| barriers.include?(k) }
             end
           end

@@ -26,6 +26,7 @@ module Blokade
           nice_klass = klass.constantize
           my_harbor = Blokade.harbor.harbors.try(:[], nice_klass)
           my_harbor_keys = my_harbor.try(:keys).present? ? my_harbor.keys : nil
+
           unless Blokade.armada.include?(nice_klass)
             nice_klass.send(:include, Blokade::Concerns::BarrierConcerns)
             nice_klass.send(:set_harbor_keys, my_harbor_keys)

@@ -51,7 +51,7 @@ module Blokade
           end
         end
 
-        def setup_dynamic_blokades
+        def setup_dynamic_restrictions
           self.my_harbor_keys.each do |harbor_key|
             send(:define_singleton_method, "my_#{harbor_key}_restrictions".to_sym) do
               my_harbors.try(:[], harbor_key).try(:my_restrictions)

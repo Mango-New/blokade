@@ -1,4 +1,5 @@
 # # config/initializers/blokade.rb
+
 Blokade.configure do |config|
 
   # Set this to specify your own implementation of Role
@@ -22,10 +23,54 @@ Blokade.configure do |config|
   # Add hash entries to this array to specify directives for managing frontend symbolic permissions
   config.symbolic_frontend_blokades = [{manage: :my_custom_engine}]
 
-  # config.port.setup do |setup|
-  #   setup.add_barrier "Role" do
-  #     barriers [:manage, :index, :show, :new, :create, :edit, :update, :destroy]
-  #   end
-  # end
+  # Start integrating Roadblock
+  config.harbor.setup do |setup|
+    # An example of how to setup the various models follows:
+
+    # # Company Frontend
+    # setup.add_barrier "Company", i18n: true do
+    #   barriers [:show, :edit, :update], convoy: :frontend
+    # end
+
+    # # Company Backend
+    # setup.add_barrier "Company", i18n: true do
+    #   barriers [:manage], convoy: :backend
+    # end
+
+    # # User Frontend
+    # setup.add_barrier "User", i18n: false do
+    #   barriers [:manage, :index, :show, :new, :create, :edit, :update, :destroy], convoy: :frontend
+    # end
+
+    # # User Backend
+    # setup.add_barrier "User", i18n: false do
+    #   barriers [:manage], convoy: :backend
+    # end
+
+    # # Role Frontend
+    # setup.add_barrier "Role", i18n: false do
+    #   barriers [:manage, :index, :show, :new, :create, :edit, :update, :destroy], convoy: :frontend
+    # end
+
+    # # Role Backend
+    # setup.add_barrier "Role", i18n: false do
+    #   barriers [:manage], convoy: :backend
+    # end
+
+    # # User
+    # setup.add_barrier "User", i18n: false do
+    #   barriers [:manage], convoy: :backend
+    # end
+
+    # # Lead Frontend
+    # setup.add_barrier "Lead", i18n: false do
+    #   barriers [:manage], convoy: :frontend, restrict: :assignable_id
+    # end
+
+    # # Lead Backend
+    # setup.add_barrier "Lead", i18n: false do
+    #   barriers [:manage], convoy: :backend
+    # end
+  end
 
 end

@@ -43,13 +43,13 @@ describe Role do
     end
   end
 
-  shared_examples "a role blokades_on concern" do
+  shared_examples "a role barrier_concern" do
     it "should allow the standard frontend permissions" do
       permissions = Role.frontend_permissions
       expect(permissions).to_not be_nil
       [:manage, :index, :show, :new, :create, :edit, :update, :destroy].each do |my_key|
         expect(permissions).to have_key(my_key)
-        [:action, :subject_class, :description, :backend].each do |sub_key|
+        [:action, :subject_class, :description, :backend, :enable_restrictions].each do |sub_key|
           expect(permissions[my_key]).to have_key(sub_key)
         end
       end
@@ -58,22 +58,24 @@ describe Role do
       expect(permissions.values.map { |hash| hash[:subject_class] }.uniq).to match_array(["Role"])
       expect(permissions.values.map { |hash| hash[:description] }).to match_array(descriptions)
       expect(permissions.values.map { |hash| hash[:backend] }.uniq).to match_array([false])
+      expect(permissions.values.map { |hash| hash[:enable_restrictions] }.uniq).to match_array([false])
     end
 
     it "should have the standard backend permissions if the option is passed in" do
       permissions = Role.backend_permissions
       expect(permissions).to_not be_nil
-      [:manage, :index, :show, :new, :create, :edit, :update, :destroy].each do |my_key|
+      [:manage].each do |my_key|
         expect(permissions).to have_key(my_key)
-        [:action, :subject_class, :description, :backend].each do |sub_key|
+        [:action, :subject_class, :description, :backend, :enable_restrictions].each do |sub_key|
           expect(permissions[my_key]).to have_key(sub_key)
         end
       end
-      descriptions = ["Grants all power to create, read, update, and remove roles for the company.", "Permits viewing the index of all roles for the company.", "Permits viewing a specific role for the company.", "Permits viewing the new role button and page for the company.", "Permits creating a new role for the company.", "Permits viewing the edit role button and page for the company.", "Permits updating an existing role for the company.", "Permits removing an existing role from the company."]
-      expect(permissions.values.map { |hash| hash[:action] }).to match_array(["manage", "index", "show", "new", "create", "edit", "update", "destroy"])
+      descriptions = ["Grants all power to create, read, update, and remove roles for the company."]
+      expect(permissions.values.map { |hash| hash[:action] }).to match_array(["manage"])
       expect(permissions.values.map { |hash| hash[:subject_class] }.uniq).to match_array(["Role"])
       expect(permissions.values.map { |hash| hash[:description] }).to match_array(descriptions)
       expect(permissions.values.map { |hash| hash[:backend] }.uniq).to match_array([true])
+      expect(permissions.values.map { |hash| hash[:enable_restrictions] }.uniq).to match_array([false])
     end
   end
 
@@ -98,20 +100,20 @@ describe Role do
       fleet = Blokade.my_fleet
       expect(fleet.schooners).to_not be_empty
       schooner = fleet.find("Sales Representative")
-      expect(schooner.cargo).to match_array([{klass: Lead, blokades: [:manage], except: true, restrict: true, frontend: true}, {klass: Company, blokades: [:show, :edit, :update], only: true, restrict: false, frontend: true}])
+      expect(schooner.cargo).to match_array([{klass: Lead, barriers: [:manage], except: true, restrict: true, convoy: :frontend}, {klass: Company, barriers: [:show, :edit, :update], only: true, restrict: false, convoy: :frontend}])
     end
 
     it "should have the right cargo for Sales Manager" do
       fleet = Blokade.my_fleet
       expect(fleet.schooners).to_not be_empty
       schooner = fleet.find("Sales Manager")
-      expect(schooner.cargo).to match_array([{klass: Company, blokades: [:show, :edit, :update], only: true, restrict: false, frontend: true}])
+      expect(schooner.cargo).to match_array([{klass: Company, barriers: [:show, :edit, :update], only: true, restrict: false, convoy: :frontend}])
     end
   end
 
   describe "concerning blokades" do
     # Make sure the role blokades_on concern is properly loaded
-    it_behaves_like "a role blokades_on concern"
+    it_behaves_like "a role barrier_concern"
 
     # Make sure the concern is properly loaded
     it_behaves_like "a role concern"

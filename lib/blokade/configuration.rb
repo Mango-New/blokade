@@ -69,37 +69,5 @@ module Blokade
       end
     end
 
-    # def permission_klass
-    #   self.permission_class.constantize
-    # end
-
-    # def grant_klass
-    #   self.grant_class.constantize
-    # end
-
-    # def power_klass
-    #   self.power_class.constantize
-    # end
-
-    # def role_klass
-    #   self.role_class.constantize
-    # end
-
-    # def user_klass
-    #   self.user_class.constantize
-    # end
-
-    # def luser_klass
-    #   self.luser_class.constantize
-    # end
-
-    # def skywire_klass
-    #   self.skywire_class.constantize
-    # end
-
-    # def blokadable_klass
-    #   self.blokadable_class.constantize
-    # end
-
   end
 end

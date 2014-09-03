@@ -33,19 +33,39 @@ Blokade.configure do |config|
       barriers [:manage], convoy: :backend
     end
 
+    # User Frontend
+    setup.add_barrier "User", i18n: false do
+      barriers [:manage, :index, :show, :new, :create, :edit, :update, :destroy], convoy: :frontend
+    end
+
+    # User Backend
+    setup.add_barrier "User", i18n: false do
+      barriers [:manage], convoy: :backend
+    end
+
+    # Role Frontend
+    setup.add_barrier "Role", i18n: false do
+      barriers [:manage, :index, :show, :new, :create, :edit, :update, :destroy], convoy: :frontend
+    end
+
+    # Role Backend
+    setup.add_barrier "Role", i18n: false do
+      barriers [:manage], convoy: :backend
+    end
+
     # User
-    setup.add_barrier "User", i18n: true do
+    setup.add_barrier "User", i18n: false do
       barriers [:manage], convoy: :backend
     end
 
-    # Role
-    setup.add_barrier "Role", i18n: true do
-      barriers [:manage], convoy: :backend
-    end
-
-    # Lead
+    # Lead Frontend
     setup.add_barrier "Lead", i18n: false do
       barriers [:manage], convoy: :frontend, restrict: :assignable_id
+    end
+
+    # Lead Backend
+    setup.add_barrier "Lead", i18n: false do
+      barriers [:manage], convoy: :backend
     end
   end
 

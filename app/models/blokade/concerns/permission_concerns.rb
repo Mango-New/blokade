@@ -31,7 +31,6 @@ module Blokade::Concerns::PermissionConcerns
       # Gather the fleet!
       result = {}
       Blokade.armada.each do |my_armada|
-        # my_nice_armada = my_armada.constantize
         if my_armada.respond_to?(:frontend_permissions)
           # Make sure they didn't pass us a class which didn't invoke a call to `blokades`
           singular = my_armada.model_name.singular
@@ -45,7 +44,6 @@ module Blokade::Concerns::PermissionConcerns
       # Gather the fleet!
       result = {}
       Blokade.armada.each do |my_armada|
-        # my_nice_armada = my_armada.constantize
         if my_armada.respond_to?(:backend_permissions)
           singular = my_armada.model_name.singular
           result[singular.to_sym] = my_armada.backend_permissions
