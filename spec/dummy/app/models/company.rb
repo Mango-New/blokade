@@ -1,9 +1,5 @@
 class Company < ActiveRecord::Base
 
-  acts_as_blokade as: :blokade
-
-  # blokades frontend: [:show, :edit, :update], backend: [:manage], i18n: true
-
   has_many :leads, dependent: :destroy
 
   def to_s

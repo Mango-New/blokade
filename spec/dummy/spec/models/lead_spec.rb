@@ -7,25 +7,25 @@ describe Lead do
     end
   end
 
-  shared_examples "a lead blokades_on concern" do
+  shared_examples "a lead barrier_concern" do
     it "should allow the standard frontend permissions" do
       permissions = Lead.frontend_permissions
       expect(permissions).to_not be_nil
-      [:manage, :index, :show, :new, :create, :edit, :update, :destroy].each do |my_key|
+      [:manage].each do |my_key|
         expect(permissions).to have_key(my_key)
         [:action, :subject_class, :description, :backend].each do |sub_key|
           expect(permissions[my_key]).to have_key(sub_key)
         end
       end
-      descriptions = ["Grants all power to create, read, update, and remove leads for the company.", "Permits viewing the index of all leads for the company.", "Permits viewing a specific lead for the company.", "Permits viewing the new lead button and page for the company.", "Permits creating a new lead for the company.", "Permits viewing the edit lead button and page for the company.", "Permits updating an existing lead for the company.", "Permits removing an existing lead from the company."]
-      expect(permissions.values.map { |hash| hash[:action] }).to match_array(["manage", "index", "show", "new", "create", "edit", "update", "destroy"])
+      descriptions = ["Grants all power to create, read, update, and remove leads for the company."]
+      expect(permissions.values.map { |hash| hash[:action] }).to match_array(["manage"])
       expect(permissions.values.map { |hash| hash[:subject_class] }.uniq).to match_array(["Lead"])
       expect(permissions.values.map { |hash| hash[:description] }).to match_array(descriptions)
       expect(permissions.values.map { |hash| hash[:backend] }.uniq).to match_array([false])
     end
 
     it "should know the restrictions pertaining to it" do
-      expect(Lead.my_restrictions).to eq(:assignable_id)
+      expect(Lead.my_frontend_restrictions).to eq(:assignable_id)
     end
 
     describe "concerning CanCan restrictions" do
@@ -54,7 +54,7 @@ describe Lead do
   end
 
   describe "concerning blokades" do
-    it_behaves_like "a lead blokades_on concern"
+    it_behaves_like "a lead barrier_concern"
   end
 
 end

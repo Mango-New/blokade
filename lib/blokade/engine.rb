@@ -15,17 +15,44 @@ module Blokade
     end
 
     config.after_initialize do |c|
-      result = []
-      Blokade.armada.each do |value|
-        begin
-          if value.constantize
-            result.push(value)
-          end
-        rescue Exception => e
-          # Do nothing
+      # Role
+      if defined? Blokade.role_klass
+        Blokade.role_klass.class_eval do
+          include Blokade::Concerns::RoleConcerns
         end
       end
-      Blokade.armada = result
+
+      # Company
+      if defined? Blokade.blokadable_klass
+        Blokade.blokadable_klass.class_eval do
+          include Blokade::Concerns::BlokadeConcerns
+        end
+      end
+
+      # Local Users
+      if defined? Blokade.luser_klass
+        Blokade.luser_klass.class_eval do
+          include Blokade::Concerns::LuserConcerns
+        end
+      end
+
+      # Master Users
+      if defined? Blokade.skywire_klass
+        Blokade.skywire_klass.class_eval do
+          include Blokade::Concerns::SkywireConcerns
+        end
+      end
+
+      # Permissions
+      if defined? Blokade.permission_klass
+        Blokade.permission_klass.class_eval do
+          include Blokade::Concerns::PermissionConcerns
+        end
+      end
+
+      # Loadout the fleet
+      Blokade.my_fleet.schooners.each { |k| k.loadout }
     end
+
   end
 end

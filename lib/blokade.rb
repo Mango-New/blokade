@@ -1,9 +1,8 @@
 require "blokade/configuration"
 require "blokade/engine"
-require "blokade/acts_as_blokade"
 require "blokade/acts_as_ability"
-require "blokade/blokades_on"
-require "blokade/port"
+require "blokade/concerns/barrier_concerns"
+require "blokade/harbor"
 require 'blokade/barrier'
 require "blokade/acts_as_schooner"
 require "blokade/fleet"
@@ -19,16 +18,18 @@ require 'kaminari'
 module Blokade
   extend Configuration
 
-  # Singleton that holds everything
-  mattr_accessor :port
+  autoload :BarrierConcerns, "blokade/concerns/barrier_concerns"
 
-  def self.port
-    Port.instance
+  # Singleton that holds everything
+  mattr_accessor :harbor
+
+  def self.harbor
+    Harbor.instance
   end
 
   # Armada (Absolutely Override)
   mattr_accessor :armada
-  @@armada = nil
+  @@armada = []
 
   mattr_accessor :symbolic_frontend_blokades
   @@symbolic_frontend_blokades = [{}]
@@ -39,9 +40,6 @@ module Blokade
   mattr_accessor :my_fleet
   @@my_fleet = Blokade::Fleet.new
 
-  # Include our stuff
-  ActiveRecord::Base.send :include, Blokade::ActsAsBlokade
-  ActiveRecord::Base.send :include, Blokade::BlokadesOn
   ActiveRecord::Base.send :include, Blokade::ActsAsSchooner
 
 end

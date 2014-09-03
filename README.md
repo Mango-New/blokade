@@ -25,34 +25,11 @@ rake blokade:install:migrations
 
 Blokade can be configured via an initializer file in the following fashion:
 
-```ruby
-# config/initializers/blokade.rb
-
-Blokade.setup do |config|
-  # Specify which models will call `blokades frontend: [...]`
-  # This is required in order for Blokade to generate permissions
-  config.armada = ["Role", "User", "Company"]
-
-  config.power_class = "Blokade::Power"
-  config.grant_class = "Blokade::Grant"
-  config.permission_class = "Blokade::Permission"
-
-  # Set this to specify your own implementation of Role
-  config.role_class = "Role"
-
-  # Set this to specify your own implementation of User
-  config.user_class = "User"
-
-  # Set this to specify what Blokade should limit the permissions to (i.e. Company, School)
-  config.blokadable_class = "Company"
-
-  # Set this to specify the default blokades which Blokade should generate for a model
-  config.default_blokades = [:manage, :index, :show, :new, :create, :edit, :update, :destroy]
-
-  # Add hash entries to this array to specify directives for managing frontend symbolic permissions
-  config.symbolic_frontend_blokades = [{manage: :my_custom_engine}]
-end
+```sh
+rails g blokade:config
 ```
+
+This will create a default configuration file which you can edit.
 
 ### Mount the Engine
 
@@ -74,14 +51,6 @@ Key (String, Index)
 Blokadable ID (Integer, Index) (i.e. company_id)
 ```
 
-In order to tie Blokade into your own implementation of the `Role` class you'll have to
-invoke the following method:
-
-```ruby
-# Role
-acts_as_blokade as: :role
-```
-
 #### Users
 
 Blokade assumes that you are going to implement your own custom User class in the application.
@@ -92,38 +61,6 @@ In doing so, the `User` model must have the following database columns:
 Blokadable ID (Integer, Index) (i.e. company_id)
 Type (String, Index)
 ```
-
-Blokade separates out the Frontend vs. Backend users by using Single Table Inheritance on
-the User model. Frontend users are referred to as `luser` or local users. Backend users are
-referred to as `skywire` or skywire administrators.
-
-In order to tie Blokade into your own implementation of the `User` class you'll have to
-invoke the following methods where appropriate:
-
-```ruby
-# app/models/luser.rb
-acts_as_blokade as: :luser
-
-# app/models/skywire.rb
-acts_as_blokade as: :skywire
-```
-
-#### Blokadable
-
-The Blokadable represents the model to which all the permissions will be scoped to. This could be something
-like a company or a school. Blokade requires you to specify the thing which is `blokadable` so that it can
-expect to look for that blokadable_id in the ability file. For example, if you wanted to limit a users permissions
-to only apply to their own Company, then you would specify the following inside `company.rb`, to invoke Blokade:
-
-```ruby
-# company.rb
-acts_as_blokade as: :blokade
-```
-
-In doing this, Blokade will then check to make sure that all the other models which invoke a call to `blokades frontend: [...]`
-have the column `company_id`. It will then scope the permissions for that user to their own `company_id` which is associated
-with their user account.
-
 
 ### Can-Can Ability
 

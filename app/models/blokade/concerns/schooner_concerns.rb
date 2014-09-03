@@ -10,7 +10,6 @@ module Blokade::Concerns::SchoonerConcerns
         # Don't add this schooner twice!
         schooner = Blokade::Schooner.new(name_of_role, cargo)
         Blokade.my_fleet.dock(schooner)
-        schooner.loadout
       end
     end
   end

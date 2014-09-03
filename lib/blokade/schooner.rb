@@ -10,37 +10,33 @@ module Blokade
     # Prepare everything
     def loadout
       if cargo.present?
+        # Cargo is:
+        # [
+        #   {klass: Lead, barriers: [:manage], except: true, restrict: true, convoy: :frontend},
+        #   {klass: Company, barriers: [:show, :edit, :update], only: true, restrict: false, convoy: :frontend}
+        # ]
         my_permission_ids = []
-        # Cargo is: {:klass=>Lead(no database connection), :blokades=>[:manage], :except=>true, :restrict=>true, :frontend=>true}
         cargo.each do |c|
           klass = c.try(:[], :klass)
-          blokades = c.try(:[], :blokades)
+          barriers = c.try(:[], :barriers)
           except = c.try(:[], :except)
           only = c.try(:[], :only)
           restrict = c.try(:[], :restrict)
-          frontend = c.try(:[], :frontend)
+          convoy = c.try(:[], :convoy)
 
           # Find out what blokades they want
-          if except.present?
-            if frontend
-              desired_blokades = klass.my_frontend_blokades.reject { |k| blokades.include?(k) }
-            else
-              desired_blokades = klass.my_backend_blokades.reject { |k| blokades.include?(k) }
-            end
-          elsif only.present?
-            if frontend
-              desired_blokades = klass.my_frontend_blokades.select { |k| blokades.include?(k) }
-            else
-              desired_blokades = klass.my_backend_blokades.select { |k| blokades.include?(k) }
+          if klass.respond_to?("my_#{convoy}_blokades".to_sym)
+            if except.present?
+              # desired_blokades = Blokade.default_blokades.reject { |k| barriers.include?(k) }
+              desired_blokades = klass.send("my_#{convoy}_blokades".to_sym).reject { |k| barriers.include?(k) }
+            elsif only.present?
+              # desired_blokades = Blokade.default_blokades.select { |k| barriers.include?(k) }
+              desired_blokades = klass.send("my_#{convoy}_blokades".to_sym).select { |k| barriers.include?(k) }
             end
           end
 
           # Get the desired permissions
-          if frontend
-            permissions = Blokade::Permission.frontend.where("subject_class = ? AND action IN (?) AND enable_restrictions = ?", klass, desired_blokades, restrict)
-          else
-            permissions = Blokade::Permission.backend.where("subject_class = ? AND action IN (?) AND enable_restrictions = ?", klass, desired_blokades, restrict)
-          end
+          permissions = Blokade::Permission.send(convoy).where("subject_class = ? AND action IN (?) AND enable_restrictions = ?", klass, desired_blokades, restrict)
           my_permission_ids << permissions.pluck(:id)
         end
         self.permission_ids = my_permission_ids.flatten.compact

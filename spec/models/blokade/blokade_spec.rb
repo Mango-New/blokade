@@ -34,7 +34,7 @@ module Blokade
 
     it "should have a blokadable_class method" do
       expect(Blokade.armada).to_not be_nil
-      expect(Blokade.armada).to eq(["Role", "User", "Company", "Lead"])
+      expect(Blokade.armada).to eq([Role, User, Company, Lead])
       expect(Blokade.armada).to_not include("InvalidConstant")
     end
 

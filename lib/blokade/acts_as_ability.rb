@@ -31,12 +31,13 @@ module Blokade
           # Check a users permissions
           if permission.subject_class.constantize.column_names.include?(blokade_id_column)
             # Does this model have a blokadable_id column in it...
-            can permission.action.to_sym, permission.subject_class.constantize, blokade_id_column.to_sym => user.send(blokade_id_column), permission.subject_class.constantize.my_restrictions.to_sym => user.id
+            can permission.action.to_sym, permission.subject_class.constantize, blokade_id_column.to_sym => user.send(blokade_id_column), permission.subject_class.constantize.my_frontend_restrictions.to_sym => user.id
           else
             # ... or is it the blokadable itself?
             can permission.action.to_sym, permission.subject_class.constantize, :id => user.send(blokade_id_column)#, permission.subject_class.constantize.my_restrictions.to_sym => user.id
           end
         end
+
       end
     end
 
