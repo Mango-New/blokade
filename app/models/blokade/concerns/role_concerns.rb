@@ -19,7 +19,9 @@ module Blokade::Concerns::RoleConcerns
     private
 
     def generate_key
-      self.key = name.parameterize unless key.present?
+      if Blokade.role_klass.column_names.include?("key")
+        self.key = name.parameterize unless key.present?
+      end
     end
   end
 

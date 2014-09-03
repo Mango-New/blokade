@@ -16,7 +16,7 @@
       %th
       %td.action-button
         .pull-right
-          = link_to edit_permission_path(@permission), title: t(".edit_permission"), class: 'btn btn-warning btn-xs' do
+          = link_to blokade.edit_permission_path(@permission), title: t(".edit_permission"), class: 'btn btn-warning btn-xs' do
             %span.glyphicon.glyphicon-edit
     %tr
       %th= Blokade::Permission.human_attribute_name(:subject_class)

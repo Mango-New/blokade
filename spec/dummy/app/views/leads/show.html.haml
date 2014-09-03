@@ -21,7 +21,7 @@
           %td= @lead.company.name
           %td.action-button
             .pull-right
-              = link_to edit_lead_path(@lead), class: 'btn btn-xs btn-warning', title: 'Edit Lead' do
+              = link_to main_app.edit_lead_path(@lead), class: 'btn btn-xs btn-warning', title: 'Edit Lead' do
                 %span.glyphicon.glyphicon-edit
   .span8
     %p Stuff here

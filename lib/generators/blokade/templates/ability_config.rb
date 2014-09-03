@@ -1,10 +1,10 @@
-# app/models/ability.rb
+# app/models/blokade_ability.rb
 
 class MyAbility
   include Blokade::ActsAsAbility
 end
 
-class Ability < MyAbility
+class BlokadeAbility < MyAbility
   include CanCan::Ability
 
   def initialize(user)

@@ -1,7 +1,7 @@
 #navbar-collapse-1.collapse.navbar-collapse
   %ul.nav.navbar-nav
     %li{class: (params[:controller] == "leads") ? "active" : nil}
-      = link_to leads_path do
+      = link_to main_app.leads_path do
         %span.glyphicon.glyphicon-star
         Leads
     %li

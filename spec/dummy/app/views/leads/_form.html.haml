@@ -9,4 +9,4 @@
         = f.association :assignable, collection: Luser.all
   .form-actions
     = f.button :submit, class: 'btn btn-primary'
-    = link_to 'Cancel', @lead.new_record? ? leads_path : lead_path(@lead), class: 'btn'
+    = link_to 'Cancel', @lead.new_record? ? main_app.leads_path : main_app.lead_path(@lead), class: 'btn'

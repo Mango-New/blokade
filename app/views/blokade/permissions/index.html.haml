@@ -4,7 +4,7 @@
   %h3.sub-title.inline
     = t(".title")
     %span
-      = link_to new_permission_path, class: 'btn btn-xs btn-primary', title: t(".new_permission") do
+      = link_to blokade.new_permission_path, class: 'btn btn-xs btn-primary', title: t(".new_permission") do
         %span.glyphicon.glyphicon-plus
 
 .well#permissions
@@ -35,7 +35,7 @@
         #symbolic_frontend.tab-pane.active
           %h4.page-header Symbolic Permissions
           .row
-            .col-md-10
+            .col-md-offset-1.col-md-10
               %table.table.table-striped.table-hover.table-condensed
                 %thead
                   %tr

@@ -9,7 +9,7 @@ Description:
 DESC
 
       def copy_config_file
-        template 'ability_config.rb', 'app/models/ability.rb'
+        template 'ability_config.rb', 'app/models/blokade_ability.rb'
       end
     end
   end

@@ -38,19 +38,19 @@ module Blokade
       self.power_class = "Blokade::Power"
 
       # Role (Override)
-      self.role_class = "Blokade::Role"
+      self.role_class = nil
 
       # User (Override)
-      self.user_class = "Blokade::User"
+      self.user_class = nil
 
       # Local User (Override)
-      self.luser_class = "Blokade::Luser"
+      self.luser_class = nil
 
       # User (Override)
-      self.skywire_class = "Blokade::Skywire"
+      self.skywire_class = nil
 
       # Blokadable (Override)
-      self.blokadable_class = "Blokade::Blokadable"
+      self.blokadable_class = nil
 
       # Default Blokades actions
       self.default_blokades = [:manage, :index, :show, :new, :create, :edit, :update, :destroy]
