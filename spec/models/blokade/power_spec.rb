@@ -13,7 +13,7 @@ module Blokade
 
       it "should avoid duplicates" do
         role = create(:role)
-        user = create(:luser)
+        user = create(:limited_user)
         power = create(:blokade_power, user: user, role: role)
         expect(power).to be_valid
         invalid_power = build(:blokade_power, user: user, role: role)
@@ -24,7 +24,7 @@ module Blokade
     describe "concerning ActiveRecord callbacks" do
       it "should be destroyed if the role is destroyed" do
         role = create(:role)
-        user = create(:luser)
+        user = create(:limited_user)
         power = create(:blokade_power, user: user, role: role)
         role.destroy
         expect { power.reload }.to raise_error(ActiveRecord::RecordNotFound)
@@ -32,7 +32,7 @@ module Blokade
 
       it "should be destroyed if the user is destroyed" do
         role = create(:role)
-        user = create(:luser)
+        user = create(:limited_user)
         power = create(:blokade_power, user: user, role: role)
         user.destroy
         expect { power.reload }.to raise_error(ActiveRecord::RecordNotFound)

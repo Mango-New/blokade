@@ -9,8 +9,6 @@ module Blokade
       :role_class,
       :user_class,
       :blokadable_class,
-      :luser_class,
-      :skywire_class,
     ]
 
     # When this module is extended, set all configuration options to their default values
@@ -18,6 +16,8 @@ module Blokade
       # Get our constants setup
       KLASS_CONSTANTS.each { |k| base.send(:mattr_accessor, k.to_sym) }
       base.send(:mattr_accessor, :default_blokades)
+      base.send(:mattr_accessor, :one_to_one_user_associations)
+      base.send(:mattr_accessor, :blokade_id_column)
 
       # Reset the values
       base.reset
@@ -43,17 +43,17 @@ module Blokade
       # User (Override)
       self.user_class = nil
 
-      # Local User (Override)
-      self.luser_class = nil
-
-      # User (Override)
-      self.skywire_class = nil
-
       # Blokadable (Override)
       self.blokadable_class = nil
 
       # Default Blokades actions
       self.default_blokades = [:manage, :index, :show, :new, :create, :edit, :update, :destroy]
+
+      # Specify if a User only belongs to a single company
+      self.one_to_one_user_associations = true
+
+      # Let them specify the exact column
+      self.blokade_id_column = "blockadable"
     end
 
      # Allows setting all configuration options in a block

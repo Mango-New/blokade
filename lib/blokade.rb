@@ -2,6 +2,7 @@ require "blokade/configuration"
 require "blokade/engine"
 require "blokade/acts_as_ability"
 require "blokade/concerns/barrier_concerns"
+require "blokade/concerns/user_concerns"
 require "blokade/harbor"
 require 'blokade/barrier'
 require "blokade/acts_as_schooner"
@@ -19,6 +20,7 @@ module Blokade
   extend Configuration
 
   autoload :BarrierConcerns, "blokade/concerns/barrier_concerns"
+  autoload :UserConcerns, "blokade/concerns/user_concerns"
 
   # Singleton that holds everything
   mattr_accessor :harbor

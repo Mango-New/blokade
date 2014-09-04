@@ -65,5 +65,5 @@ def stub_cancan_authorize(model_names = [], options={})
   model_names.each do |model_name|
     @ability.can(:manage, model_name)
   end
-  allow_any_instance_of(Luser).to receive(:ability).and_return(@ability)
+  allow_any_instance_of(User).to receive(:ability).and_return(@ability)
 end

@@ -3,12 +3,20 @@ FactoryGirl.define do
     sequence(:name) { |k| "MyString-#{k}" }
   end
 
-  factory :luser, class: 'Luser', parent: :user do
-    type "Luser"
+  factory :limited_user, parent: :user do
     company { |i| i.association(:company) }
+
+    after(:build) do |user, evaluator|
+      role = Role.find_or_create_by(name: "Sales Representative", company_id: user.company.id)
+      user.roles << role
+    end
   end
 
-  factory :skywire, class: 'Skywire', parent: :user do
-    type "Skywire"
+  factory :unlimited_user, parent: :user do
+    after(:build) do |user, evaluator|
+      role = Role.find_or_create_by(name: "Sales Manager")
+      user.roles << role
+    end
   end
+
 end

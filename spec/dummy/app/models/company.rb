@@ -1,6 +1,7 @@
 class Company < ActiveRecord::Base
 
   has_many :leads, dependent: :destroy
+  has_many :users, dependent: :destroy
 
   def to_s
     name

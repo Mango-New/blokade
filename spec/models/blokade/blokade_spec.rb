@@ -50,5 +50,9 @@ module Blokade
     it "should have a symbolic_backend_blokades" do
       expect(Blokade.symbolic_backend_blokades).to match_array([{}])
     end
+
+    it "should default one_to_one_user_associations to true" do
+      expect(Blokade.one_to_one_user_associations).to eql(true)
+    end
   end
 end

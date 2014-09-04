@@ -29,17 +29,10 @@ module Blokade
         end
       end
 
-      # Local Users
-      if defined?(Blokade.luser_klass) && Blokade.luser_klass.present?
-        Blokade.luser_klass.class_eval do
-          include Blokade::Concerns::LuserConcerns
-        end
-      end
-
-      # Master Users
-      if defined?(Blokade.skywire_klass) && Blokade.skywire_klass.present?
-        Blokade.skywire_klass.class_eval do
-          include Blokade::Concerns::SkywireConcerns
+      # All Users
+      if defined?(Blokade.user_klass) && Blokade.user_klass.present?
+        Blokade.user_klass.class_eval do
+          include Blokade::Concerns::UserConcerns
         end
       end
 
@@ -52,6 +45,9 @@ module Blokade
 
       # Loadout the fleet
       Blokade.my_fleet.schooners.each { |k| k.loadout }
+
+      # Set the column ID
+      Blokade.blokade_id_column ||= "#{Blokade.blokadable_klass.model_name.element}"
     end
 
   end

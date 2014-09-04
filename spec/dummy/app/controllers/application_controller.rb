@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    @current_user = current_company.lusers.first
+    @current_user = current_company.users.first
   end
 
   def current_ability

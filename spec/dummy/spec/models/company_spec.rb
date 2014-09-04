@@ -10,9 +10,9 @@ describe Company do
         expect { role.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
-      it "should destroy dependent lusers" do
+      it "should destroy dependent users" do
         company = create(:company, name: 'Phoenixfire Productions')
-        user = create(:luser, name: 'mark', company: company)
+        user = create(:limited_user, name: 'mark', company: company)
         company.destroy
         expect { user.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end

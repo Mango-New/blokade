@@ -8,12 +8,6 @@ Blokade.configure do |config|
   # Set this to specify your own implementation of User
   config.user_class = 'User'
 
-  # Set this to specify your own implementation of Local User
-  config.luser_class = 'Luser'
-
-  # Set this to specify your own implementation of Skywire
-  config.skywire_class = 'Skywire'
-
   # Set this to specify what Blokade should limit the permissions to (i.e. Company, School)
   config.blokadable_class = 'Company'
 
@@ -22,6 +16,12 @@ Blokade.configure do |config|
 
   # Add hash entries to this array to specify directives for managing frontend symbolic permissions
   config.symbolic_frontend_blokades = [{manage: :my_custom_engine}]
+
+  # Indicate that a User can belong to multiple companies
+  config.one_to_one_user_associations = true
+
+  # Set the default limiting column (Set me)!
+  config.blokade_id_column = "company"
 
   # Start integrating Roadblock
   config.harbor.setup do |setup|

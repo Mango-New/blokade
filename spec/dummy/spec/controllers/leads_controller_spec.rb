@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.describe LeadsController, type: :controller do
 
   let(:company) { create(:company, name: 'Planet Express') }
-  let(:luser) { create(:luser, name: "John Doe", company: company) }
+  let(:limited_user) { create(:limited_user, name: "John Doe", company: company) }
 
   before(:each) do
     stub_cancan_authorize([Lead])
-    allow(controller).to receive(:current_user).and_return(luser)
+    allow(controller).to receive(:current_user).and_return(limited_user)
     allow(controller).to receive(:current_company).and_return(company)
-    expect(company.lusers).to match_array([luser])
+    expect(company.users).to match_array([limited_user])
   end
 
   let(:valid_attributes) { attributes_for(:lead).merge(company_id: company.id) }

@@ -80,7 +80,7 @@ module Blokade
         it "should have many users and roles" do
           permission = create(:blokade_permission)
           company = create(:company)
-          user = create(:luser, company: company)
+          user = create(:user, company: company)
           role = create(:role, company: company, name: "Administrator")
           grant = create(:blokade_grant, permission: permission, role: role)
           expect(grant.role).to eq(role)
