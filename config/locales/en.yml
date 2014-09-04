@@ -12,8 +12,8 @@ en:
         action: 'Action'
         backend: 'Backend'
         description: 'Description'
-        subject_class: 'Subject Class'
-        enable_restrictions: 'Enable Restrictions'
+        subject_class: 'Class'
+        enable_restrictions: 'Restricted'
     models:
       permission: 'Permission'
   blokade:

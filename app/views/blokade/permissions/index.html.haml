@@ -36,7 +36,7 @@
           %h4.page-header Symbolic Permissions
           %h5 All Symbolic Permissions
           .row
-            .col-md-offset-1.col-md-10
+            .col-md-9
               %table.table.table-striped.table-hover.table-condensed
                 %thead
                   %tr
@@ -52,21 +52,10 @@
           - unrestricted_permissions = my_frontend_permissions.unrestricted
           - restricted_permissions = my_frontend_permissions.restricted
           %div.tab-pane{id: "frontend_#{my_subject_class}"}
-            %h4.page-header= my_subject_class
+            %h4.page-header= my_subject_class.classify.constantize.model_name.human
             %h5 Not Restricted
-            .col-md-offset-1.col-md-10
-              %table.table.table-striped.table-hover.table-condensed
-                %thead
-                  %tr
-                    %th= Blokade::Permission.human_attribute_name(:action)
-                    %th= Blokade::Permission.human_attribute_name(:subject_class)
-                    %th= Blokade::Permission.human_attribute_name(:description)
-                    %th= Blokade::Permission.human_attribute_name(:enable_restrictions)
-                    %th
-                %tbody
-                  = render unrestricted_permissions
-              - if restricted_permissions.present?
-                %h5 Restricted
+            .row
+              .col-md-9
                 %table.table.table-striped.table-hover.table-condensed
                   %thead
                     %tr
@@ -76,7 +65,19 @@
                       %th= Blokade::Permission.human_attribute_name(:enable_restrictions)
                       %th
                   %tbody
-                    = render restricted_permissions
+                    = render unrestricted_permissions
+                - if restricted_permissions.present?
+                  %h5 Restricted
+                  %table.table.table-striped.table-hover.table-condensed
+                    %thead
+                      %tr
+                        %th= Blokade::Permission.human_attribute_name(:action)
+                        %th= Blokade::Permission.human_attribute_name(:subject_class)
+                        %th= Blokade::Permission.human_attribute_name(:description)
+                        %th= Blokade::Permission.human_attribute_name(:enable_restrictions)
+                        %th
+                    %tbody
+                      = render restricted_permissions
 
   .tab-pane#backend
     %h3= t(".skywire_permissions")
@@ -92,7 +93,7 @@
           %h4.page-header Symbolic Permissions
           %h5 All Symbolic Permissions
           .row
-            .col-md-offset-1.col-md-10
+            .col-md-9
               %table.table.table-striped.table-hover.table-condensed
                 %thead
                   %tr
@@ -109,10 +110,10 @@
           - unrestricted_permissions = my_backend_permissions.unrestricted
           - restricted_permissions = my_backend_permissions.restricted
           %div.tab-pane{id: "backend_#{my_subject_class}"}
-            %h4.page-header= my_subject_class
+            %h4.page-header= my_subject_class.classify.constantize.model_name.human
             %h5 Not Restricted
             .row
-              .col-md-offset-1.col-md-10
+              .col-md-9
                 %table.table.table-striped.table-hover.table-condensed
                   %thead
                     %tr

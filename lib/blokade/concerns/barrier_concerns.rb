@@ -68,7 +68,7 @@ module Blokade
             when :add
               "Permits adding and creating new #{self.model_name.human.pluralize.downcase}."
             when :read
-              "Permits viewing all companies and any specific #{self.model_name.human.downcase}."
+              "Permits viewing all #{self.model_name.human.pluralize.downcase} and any specific #{self.model_name.human.downcase}."
             when :modify
               "Permits editing and updating an existing #{self.model_name.human.downcase}."
             when :remove
