@@ -16,10 +16,14 @@ module Blokade::Concerns::RoleConcerns
       "#{id}-#{name}".parameterize
     end
 
+    def self.has_key_column?
+      Blokade.role_klass.column_names.include?("key")
+    end
+
     private
 
     def generate_key
-      if Blokade.role_klass.column_names.include?("key")
+      if Role.has_key_column?
         self.key = name.parameterize unless key.present?
       end
     end

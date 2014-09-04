@@ -37,11 +37,17 @@
       %tr
         %th= Blokade.blokadable_klass.model_name.human
         %th Name
-        %th Key
+        - if Blokade.role_klass.has_key_column?
+          %th Key
     %tbody
       - @permission.roles.each do |role|
         %tr
-          %td= role.send(Blokade.blokadable_klass.model_name.singular.to_sym).to_s
+          %td
+            - if Blokade.one_to_one_user_associations
+              = role.send(Blokade.blokadable_klass.model_name.singular.to_sym).to_s
+            - else
+              Not Applicable
           %td= role.name
-          %td= role.key
+          - if Blokade.role_klass.has_key_column?
+            %td= role.key
 
