@@ -65,6 +65,14 @@ module Blokade
           else
             blokadable_name = Blokade.blokadable_klass.model_name.singular
             case barrier
+            when :add
+              "Permits adding and creating new #{self.model_name.human.pluralize.downcase}."
+            when :read
+              "Permits viewing all companies and any specific #{self.model_name.human.downcase}."
+            when :modify
+              "Permits editing and updating an existing #{self.model_name.human.downcase}."
+            when :remove
+              "Permits removing an existing #{self.model_name.human.downcase}."
             when :manage
               "Grants all power to create, read, update, and remove #{self.model_name.human.pluralize.downcase} for the #{blokadable_name}."
             when :index
