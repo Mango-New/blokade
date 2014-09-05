@@ -8,14 +8,14 @@ FactoryGirl.define do
 
     after(:build) do |user, evaluator|
       role = Role.find_or_create_by(name: "Sales Representative", company_id: user.company.id)
-      user.roles << role
+      user.blokade_roles << role
     end
   end
 
   factory :unlimited_user, parent: :user do
     after(:build) do |user, evaluator|
       role = Role.find_or_create_by(name: "Sales Manager")
-      user.roles << role
+      user.blokade_roles << role
     end
   end
 

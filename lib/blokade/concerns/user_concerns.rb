@@ -9,14 +9,14 @@ module Blokade
         end
 
         has_many :powers, dependent: :destroy, class_name: Blokade.power_klass.to_s, foreign_key: "user_id"
-        has_many :roles, through: :powers
+        has_many :blokade_roles, through: :powers, class_name: Blokade.role_klass.to_s, source: :role
 
         if Proc.new { |k| k.is_frontend_user? }
-          has_many :permissions, -> { where backend: false }, through: :roles
+          has_many :permissions, -> { where backend: false }, through: :blokade_roles
         end
 
         if Proc.new { |k| k.is_backend_user? }
-          has_many :backend_permissions, -> { where backend: true }, through: :roles, source: :permissions
+          has_many :backend_permissions, -> { where backend: true }, through: :blokade_roles, source: :permissions
         end
 
         # This allows us to check abilities on users who are not the current one

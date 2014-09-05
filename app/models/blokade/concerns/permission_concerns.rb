@@ -3,8 +3,8 @@ module Blokade::Concerns::PermissionConcerns
 
   included do
     has_many :grants, dependent: :destroy, class_name: Blokade.grant_klass.to_s
-    has_many :roles, through: :grants
-    has_many :users, through: :roles
+    has_many :blokade_roles, through: :grants, class_name: Blokade.role_klass.to_s, source: :role
+    has_many :users, through: :blokade_roles
 
     validates :action, presence: true
     validates :subject_class, presence: true

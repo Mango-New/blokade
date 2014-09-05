@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 
 
   def has_role?(role_key)
-    roles.get(role_key).present?
+    blokade_roles.get(role_key).present?
   end
 
   def is_frontend_user?

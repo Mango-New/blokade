@@ -76,9 +76,9 @@ Blokadable ID (Integer, Index) (i.e. company_id)
 Type (String, Index)
 ```
 
-### Default Roles and Permissions
+### Default Blokade Roles and Permissions
 
-Blokade has a directive for defining default roles and the permissions they should roll out with.
+Blokade has a directive for defining default blokade_roles and the permissions they should roll out with.
 
 The following will invoke the fleets and schooners directives:
 
@@ -94,17 +94,17 @@ class Role < ActiveRecord::Base
 end
 ```
 
-This will create two default roles: `Sales Representative` and `Sales Manager`. Blokade will parse the options you
+This will create two default blokade_roles: `Sales Representative` and `Sales Manager`. Blokade will parse the options you
 pass into it and assign `schooner.permission_ids` to match the barriers you specify. This will allow you to write a
 rake task to loop over all the Fleet using `Blokade.my_fleet` to iterate over them all.
 
 An example is provided in the dummy application:
 
 ```ruby
-def create_default_roles
+def create_default_blokade_roles
   # Create the default schooners
   Blokade.my_fleet.schooners.each do |schooner|
-    my_role = self.roles.find_or_create_by(name: schooner.role_name, key: schooner.role_name.parameterize, company: self)
+    my_role = self.blokade_roles.find_or_create_by(name: schooner.role_name, key: schooner.role_name.parameterize, company: self)
     my_role.permission_ids = schooner.permission_ids
     my_role.save!
   end

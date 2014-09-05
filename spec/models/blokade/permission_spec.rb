@@ -77,7 +77,7 @@ module Blokade
       end
 
       describe "concerning associations" do
-        it "should have many users and roles" do
+        it "should have many users and blokade_roles" do
           permission = create(:blokade_permission)
           company = create(:company)
           user = create(:user, company: company)
@@ -89,8 +89,8 @@ module Blokade
           expect(power.role).to eq(role)
           expect(power.user).to eq(user)
           expect(role.users).to include(user)
-          expect(user.roles).to include(role)
-          expect(permission.roles).to include(role)
+          expect(user.blokade_roles).to include(role)
+          expect(permission.blokade_roles).to include(role)
           expect(role.permissions).to include(permission)
           expect(permission.users).to include(user)
           expect(user.permissions).to include(permission)

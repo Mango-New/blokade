@@ -40,7 +40,7 @@
         - if Blokade.role_klass.has_key_column?
           %th Key
     %tbody
-      - @permission.roles.each do |role|
+      - @permission.blokade_roles.each do |role|
         %tr
           %td
             - if Blokade.one_to_one_user_associations

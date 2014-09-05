@@ -32,7 +32,7 @@ describe User do
           grant = create(:blokade_grant, role: role, permission: permission)
           unlimited_user = create(:unlimited_user)
           luser = create(:limited_user, name: "Hoop Jup")
-          expect(unlimited_user.roles).to match_array([role])
+          expect(unlimited_user.blokade_roles).to match_array([role])
           expect(role.permissions).to match_array([permission])
           expect(role.grants).to match_array([grant])
           expect(role.users).to match_array([unlimited_user])
@@ -47,14 +47,14 @@ describe User do
       end
 
       describe "concerning associations" do
-        it "should have many roles through powers" do
+        it "should have many blokade_roles through powers" do
           role = create(:role, name: "Sales Manager")
           user = create(:unlimited_user)
-          expect(user.roles).to match_array([role])
+          expect(user.blokade_roles).to match_array([role])
           expect(role.users).to match_array([user])
         end
 
-        it "should have many permissions through roles" do
+        it "should have many permissions through blokade_roles" do
           permission = create(:blokade_permission, backend: true)
           role = create(:role, name: "Sales Manager")
           grant = create(:blokade_grant, role: role, permission: permission)
@@ -109,12 +109,12 @@ describe User do
           grant = create(:blokade_grant, role: role, permission: permission)
           luser = create(:limited_user, company: company1)
           luser2 = create(:limited_user, name: "Hoop Jup", company: company2)
-          expect(luser.roles).to match_array([role])
+          expect(luser.blokade_roles).to match_array([role])
           expect(company1.users).to_not match_array([luser2])
           expect(company1.users).to match_array([luser])
           expect(luser.company).to eq(company1)
-          expect(luser.roles).to match_array([role])
-          expect(company1.roles).to match_array([role])
+          expect(luser.blokade_roles).to match_array([role])
+          expect(company1.blokade_roles).to match_array([role])
           expect(role.permissions).to match_array([permission])
           expect(role.grants).to match_array([grant])
           expect(role.users).to match_array([luser])
@@ -131,16 +131,16 @@ describe User do
           expect(limited_user.company).to_not be_nil
         end
 
-        it "should have many roles through powers" do
+        it "should have many blokade_roles through powers" do
           company = create(:company, name: 'Phoenixfire Productions')
           role = create(:sales_representative, company: company)
           limited_user = create(:limited_user, company: company)
           power = create(:blokade_power, user: limited_user)
-          expect(limited_user.roles).to match_array([role])
+          expect(limited_user.blokade_roles).to match_array([role])
           expect(role.users).to match_array([limited_user])
         end
 
-        it "should have many permissions through roles" do
+        it "should have many permissions through blokade_roles" do
           company = create(:company, name: 'Phoenixfire Productions')
           permission = create(:blokade_permission)
           role = create(:sales_representative, company: company)
