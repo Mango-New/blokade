@@ -14,7 +14,7 @@ module Blokade
       g.integration_tool false
     end
 
-    config.after_initialize do |c|
+    config.to_prepare do |c|
       # Role
       if defined?(Blokade.role_klass) && Blokade.role_klass.present?
         Blokade.role_klass.class_eval do
@@ -41,10 +41,10 @@ module Blokade
         Blokade.permission_klass.class_eval do
           include Blokade::Concerns::PermissionConcerns
         end
-      end
 
-      # Loadout the fleet
-      Blokade.my_fleet.schooners.each { |k| k.loadout }
+        # Loadout the fleet
+        Blokade.my_fleet.schooners.each { |k| k.loadout }
+      end
 
       # Set the column ID
       Blokade.blokade_id_column ||= "#{Blokade.blokadable_klass.model_name.element}"
