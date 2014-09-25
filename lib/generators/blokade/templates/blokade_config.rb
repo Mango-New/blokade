@@ -23,6 +23,9 @@ Blokade.configure do |config|
   # Set the default limiting column (Set me)!
   config.blokade_id_column = "company"
 
+  # Whether we should use the parent template layout or not (Default: false)
+  config.use_parent_template = false
+
   # Start integrating Roadblock
   config.harbor.setup do |setup|
     # An example of how to setup the various models follows:

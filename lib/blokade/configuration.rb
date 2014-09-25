@@ -18,6 +18,7 @@ module Blokade
       base.send(:mattr_accessor, :default_blokades)
       base.send(:mattr_accessor, :one_to_one_user_associations)
       base.send(:mattr_accessor, :blokade_id_column)
+      base.send(:mattr_accessor, :use_parent_template)
 
       # Reset the values
       base.reset
@@ -54,6 +55,9 @@ module Blokade
 
       # Let them specify the exact column
       self.blokade_id_column = "blockadable"
+
+      # Don't use the parent template by default
+      self.use_parent_template = false
     end
 
      # Allows setting all configuration options in a block
