@@ -63,7 +63,7 @@ Blokade.configure do |config|
 
     # Lead Frontend
     setup.add_barrier "Lead", i18n: false do
-      barriers [:manage], convoy: :frontend, restrict: :assignable_id
+      barriers [:index, :show, :new, :create, :edit, :update, :destroy], convoy: :frontend, restrict: :assignable_id
     end
 
     # Lead Backend

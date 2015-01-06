@@ -1,9 +1,10 @@
 #navbar-collapse-1.collapse.navbar-collapse
   %ul.nav.navbar-nav
-    %li{class: (params[:controller] == "leads") ? "active" : nil}
-      = link_to main_app.leads_path do
-        %span.glyphicon.glyphicon-star
-        Leads
+    - if can?(:index, Lead)
+      %li{class: (params[:controller] == "leads") ? "active" : nil}
+        = link_to main_app.leads_path do
+          %span.glyphicon.glyphicon-star
+          Leads
     %li
       = link_to blokade.root_path do
         %span.glyphicon.glyphicon-flag

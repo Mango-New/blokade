@@ -11,14 +11,14 @@ describe Lead do
     it "should allow the standard frontend permissions" do
       permissions = Lead.frontend_permissions
       expect(permissions).to_not be_nil
-      [:manage].each do |my_key|
+      [:index, :show, :new, :create, :edit, :update, :destroy].each do |my_key|
         expect(permissions).to have_key(my_key)
         [:action, :subject_class, :description, :backend].each do |sub_key|
           expect(permissions[my_key]).to have_key(sub_key)
         end
       end
-      descriptions = ["Grants all power to create, read, update, and remove leads for the company."]
-      expect(permissions.values.map { |hash| hash[:action] }).to match_array(["manage"])
+      descriptions = ["Permits viewing the index of all leads for the company.", "Permits viewing a specific lead for the company.", "Permits viewing the new lead button and page for the company.", "Permits creating a new lead for the company.", "Permits viewing the edit lead button and page for the company.", "Permits updating an existing lead for the company.", "Permits removing an existing lead from the company."]
+      expect(permissions.values.map { |hash| hash[:action] }).to match_array(["index", "show", "new", "create", "edit", "update", "destroy"])
       expect(permissions.values.map { |hash| hash[:subject_class] }.uniq).to match_array(["Lead"])
       expect(permissions.values.map { |hash| hash[:description] }).to match_array(descriptions)
       expect(permissions.values.map { |hash| hash[:backend] }.uniq).to match_array([false])

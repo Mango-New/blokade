@@ -38,8 +38,9 @@ namespace :blokade do
               puts "Current frontend permission: #{permission_key}"
               if sub_hash[:enable_restrictions]
                 Blokade.permission_klass.find_or_create_by(action: sub_hash[:action], subject_class: sub_hash[:subject_class], description: sub_hash[:description], backend: false, enable_restrictions: true)
+              else
+                Blokade.permission_klass.find_or_create_by(action: sub_hash[:action], subject_class: sub_hash[:subject_class], description: sub_hash[:description], backend: false, enable_restrictions: false)
               end
-              Blokade.permission_klass.find_or_create_by(action: sub_hash[:action], subject_class: sub_hash[:subject_class], description: sub_hash[:description], backend: false, enable_restrictions: false)
             end
           end
 
