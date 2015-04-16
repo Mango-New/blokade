@@ -12,3 +12,4 @@ vendor/bundle
 doc/*
 spec/dummy/public/uploads
 public/uploads
+tags
