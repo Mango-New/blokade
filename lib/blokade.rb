@@ -1,4 +1,3 @@
-require "blokade/helpers/active_record"
 require "blokade/configuration"
 require "blokade/engine"
 require "blokade/acts_as_ability"
